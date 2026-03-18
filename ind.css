@@ -1,0 +1,766 @@
+* {
+  box-sizing: border-box;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-weight: 600;
+}
+
+body {
+  padding: 0%;
+  margin: 0%;
+  overflow-x: hidden;
+  width: 100%;
+}
+
+.NavHolder {
+  width: 100%;
+  height: 75px;
+  background-color: #161616;
+  padding: 5px;
+}
+
+.TopNav {
+  width: 100%;
+  height: 100%;
+  background-color: #acacac00;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
+
+.TopNav_Title {
+  width: fit-content;
+  height: fit-content;
+}
+
+.TopNav_Title a {
+  font-size: 25px;
+  text-decoration: none;
+  color: #1a1a1a;
+  font-weight: 700;
+  transition: all 0.3s ease;
+  display: flex;
+}
+
+.TopNav_Title a:hover {
+  color: #1c1d58;
+  transform: scale(1.03);
+}
+
+.TopNav_btns {
+  display: flex;
+  gap: 10px;
+}
+
+.TopNav_btn {
+  text-decoration: none;
+  background-color: #111111;
+  border-radius: 5px;
+  padding: 7px;
+  padding-right: 12px;
+  padding-left: 12px;
+  border: 1px solid #acacac9d;
+  transition: all 0.3s ease;
+}
+
+.searchInput {
+  text-decoration: none;
+  background-color: #111111;
+  border-radius: 5px;
+  padding: 7px;
+  padding-right: 12px;
+  padding-left: 12px;
+  border: 1px solid #acacac9d;
+  transition: all 0.3s ease;
+}
+
+.searchInput:active,
+.searchInput:focus {
+  outline: none;
+  border-color: #153f97;
+  box-shadow: 0px 0px 5px #153f97;
+}
+.TopNav_btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0px 0px 10px #153f97;
+}
+
+.Hero {
+  width: 100%;
+  height: 400px;
+  background-color: #181818;
+  display: flex;
+  align-items: center;
+  position: relative;
+  justify-content: space-around;
+}
+
+.Right_Text {
+  background-color: #161616;
+  border-radius: 15px;
+  border: 1px solid #153f97;
+  width: 600px;
+  height: fit-content;
+  padding: 20px;
+  position: relative;
+}
+
+.Left_Panel {
+  background-color: #161616;
+  border-radius: 15px;
+  border: 1px solid #153f97;
+  width: 600px;
+  height: fit-content;
+  padding: 20px;
+  position: relative;
+}
+
+.Hero_btn {
+  background: linear-gradient(125deg, #153f97, #3d5691, #566994);
+  color: #fff;
+  border: none;
+  text-decoration: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  border-color: #fff;
+  transition: all 0.5s ease;
+  border-width: 1px;
+  border-style: solid;
+  display: flex;
+  width: fit-content;
+}
+
+.Hero_btn:hover {
+  background: linear-gradient(125deg, #566994, #3d5691, #153f97);
+  transform: scale(1.05);
+  box-shadow: 0px 0px 15px #153f97;
+  border-color: #153f97;
+}
+
+.Thumbnail {
+  width: 100%;
+  height: 850px;
+  background-color: transparent;
+  border: 1px solid #153f97;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: fill;
+}
+
+.Thumbnail img {
+  width: 100%;
+  height: 100%;
+  border-radius: 15px;
+  filter: blur(5px);
+  transition: all 0.5s ease;
+}
+
+.Thumbnail img:hover {
+  transform: scale(1.05);
+  box-shadow: 0px 0px 15px #153f97;
+  filter: blur(0);
+  cursor: pointer;
+}
+.Thumbnail h3 {
+  position: absolute;
+  left: 15px;
+  bottom: 50px;
+  color: #fff;
+  font-size: 40px;
+  font-weight: 700;
+  transition: all 0.3s ease;
+}
+.Thumbnail h2 {
+  position: absolute;
+  left: 15px;
+  bottom: 15px;
+  color: #fff;
+  font-size: 20px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  text-wrap: wrap;
+}
+
+.Thumbnail img:hover + h3 {
+  opacity: 0.02;
+}
+
+footer {
+  width: 100%;
+  height: 65px;
+  background-color: #161616;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.movielistholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(37, 37, 37);
+  padding: 10px;
+}
+
+.movielistHolderSecond {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 200px);
+  gap: 10px;
+  background-color: rgba(255, 0, 0, 0);
+  width: 100%;
+  height: 100%;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding-top: 15px;
+}
+
+.movieThumbnail {
+  width: 100%;
+  height: 300px;
+  background-color: transparent;
+  border: 1px solid #153f97;
+  display: flex;
+  justify-content: center;
+  border-radius: 5px;
+  position: relative;
+  transition: all 0.4s ease;
+}
+.movieThumbnailimgholder {
+  width: 100%;
+  height: 100%;
+  border-radius: 5px;
+  transition: all 0.5s ease;
+  object-fit: cover;
+  background-color: #000000;
+  position: relative;
+  bottom: -5px;
+}
+.movieThumbnail img {
+  width: 100%;
+  height: 100%;
+  border-radius: 5px;
+  transition: all 0.5s ease;
+  object-fit: cover;
+  top: 0px;
+}
+
+.movieThumbnail h3 {
+  position: absolute;
+  color: #fff;
+  transition: all 0.3s ease;
+  bottom: 0px;
+  left: 15px;
+  white-space: normal;
+  word-wrap: break-word;
+  font-size: 15px;
+  -webkit-text-stroke: 0.4px #000000;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.movieThumbnail:hover {
+  transform: scale(1.03);
+  box-shadow: 0px 0px 15px #153f97;
+}
+
+.buttons {
+  margin-top: 15px;
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+  position: relative;
+  bottom: 0px;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+
+  height: fit-content;
+}
+
+.playerHolder {
+  width: 100%;
+  height: 100%;
+  background-color: #000000;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0%);
+  top: 0px;
+  z-index: 1000;
+  display: none;
+  align-self: center;
+}
+
+.CloseBtn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: transparent;
+  border: none;
+  color: #fff;
+  font-size: 20px;
+  cursor: pointer;
+}
+.player {
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  background-color: #1a1a1a;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  position: relative;
+}
+
+.player video {
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  background-color: #000000;
+}
+
+.player h2 {
+  color: #fff;
+  font-size: 30px;
+  font-weight: 500;
+  margin-top: 10px;
+  position: relative;
+  left: 15px;
+  margin-bottom: 0px;
+}
+.player p {
+  color: #fff;
+  font-size: 15px;
+  font-weight: 500;
+  margin-top: 5px;
+  position: relative;
+  left: 15px;
+}
+.backdrop {
+  width: 100%;
+  height: 155%;
+  background-color: #000000a8;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  z-index: 999;
+  display: none;
+}
+.seasonsHolder {
+  width: 100%;
+  height: 500px;
+  background-color: #000000;
+  position: absolute;
+  scroll-behavior: auto;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  padding: 10px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  bottom: -54%;
+  padding: 0px;
+  transform: translateX(-50%, 50%);
+}
+
+.seasoncard {
+  width: 100%;
+  height: fit-content;
+  background-color: #242424;
+  border: 1px solid #153e9700;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  padding: 10px;
+  cursor: pointer;
+  margin: 0px;
+}
+
+.episodelist {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  justify-content: center;
+  align-content: center;
+}
+.episodecard {
+  width: 100%;
+  height: fit-content;
+  background-color: #161616;
+  border: 1px solid #153f97;
+  border-radius: 5px;
+  padding: 10px;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.episodecard:hover {
+  background-color: #2b9715;
+  color: #fff;
+  transform: scale(1.01);
+  box-shadow: 0px 0px 10px #153f97;
+}
+
+.active {
+  background-color: #2b9715;
+  color: #fff;
+}
+
+.seasonsHolder h2 {
+  color: #fff;
+  font-size: 25px;
+  font-weight: 600;
+  margin: 10px;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin: 0px;
+  padding: 10px;
+  transition: all 0.3s ease;
+  text-shadow: 0px 0px 15px #00ff40;
+}
+
+.seasonsHolder h2:hover {
+  color: #2b9715;
+  transform: scale(1.02);
+  cursor: pointer;
+}
+
+@media (max-width: 320px) {
+  .Thumbnail h3 {
+    font-size: 25px;
+    bottom: 261px;
+  }
+  .Thumbnail h2 {
+    font-size: 10px;
+    bottom: 221px;
+  }
+  .TopNav_Title a {
+    font-size: 14px;
+  }
+  .TopNav_btns {
+    gap: 3px;
+  }
+  .TopNav_btn {
+    padding: 5px 1px;
+    font-size: 12px;
+  }
+  .Thumbnail {
+    height: 300px;
+  }
+  .Thumbnail img {
+    height: 300px;
+  }
+  .Hero {
+    flex-direction: column;
+    height: fit-content;
+    padding: 20px;
+  }
+  .Left_Panel,
+  .Right_Text {
+    width: 100%;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  footer {
+    height: fit-content;
+    padding: 20px;
+  }
+  .TopNav_btns {
+    height: 35px;
+    width: fit-content;
+    gap: 5px;
+  }
+  .TopNav_btn {
+    padding: 1px 5px;
+    font-size: 14px;
+    width: 55px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .TopNav_Title a {
+    font-size: 0px;
+  }
+  .searchInput {
+    padding: 1px 5px;
+    font-size: 14px;
+    width: 55px;
+  }
+  .movieThumbnailimgholder h3 {
+    position: absolute;
+    left: -50%;
+    translate: translateX(50%, 0%);
+    overflow: hidden;
+    text-wrap: wrap;
+    font-size: 10px;
+  }
+  .movieThumbnailimgholder {
+    overflow: hidden;
+  }
+}
+
+@media (max-width: 375px), (max-width: 425px) {
+  .Thumbnail h3 {
+    font-size: 25px;
+    bottom: 261px;
+  }
+  .Thumbnail h2 {
+    font-size: 10px;
+    bottom: 221px;
+  }
+  .TopNav_Title a {
+    font-size: 14px;
+  }
+  .TopNav_btns {
+    gap: 3px;
+  }
+  .TopNav_btn {
+    padding: 5px 1px;
+    font-size: 12px;
+  }
+  .Thumbnail {
+    height: 300px;
+  }
+  .Thumbnail img {
+    height: 300px;
+  }
+  .Hero {
+    flex-direction: column;
+    height: fit-content;
+    padding: 20px;
+  }
+  .Left_Panel,
+  .Right_Text {
+    width: 100%;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  footer {
+    height: fit-content;
+    padding: 20px;
+  }
+  .TopNav_btns {
+    height: 35px;
+    width: fit-content;
+    gap: 5px;
+  }
+  .TopNav_btn {
+    padding: 1px 5px;
+    font-size: 14px;
+    width: fit-content;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .TopNav_Title a {
+    font-size: 0px;
+  }
+  .searchInput {
+    padding: 1px 5px;
+    font-size: 14px;
+    width: 105px;
+  }
+  .movieThumbnailimgholder h3 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: wrap;
+    font-size: 10px;
+  }
+  .movieThumbnailimgholder {
+    overflow: hidden;
+  }
+  .TopNav {
+    flex-direction: row;
+    height: fit-content;
+    padding: 10px 0px;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .Thumbnail h3 {
+    font-size: 29px;
+    bottom: 265px;
+  }
+  .Thumbnail h2 {
+    font-size: 15px;
+    bottom: 221px;
+  }
+  .TopNav_Title a {
+    font-size: 14px;
+  }
+  .TopNav_btns {
+    gap: 3px;
+  }
+  .TopNav_btn {
+    padding: 5px 1px;
+    font-size: 12px;
+  }
+  .Thumbnail {
+    height: 300px;
+  }
+  .Thumbnail img {
+    height: 300px;
+  }
+  .Hero {
+    flex-direction: column;
+    height: fit-content;
+    padding: 20px;
+  }
+  .Left_Panel,
+  .Right_Text {
+    width: 100%;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  footer {
+    height: fit-content;
+    padding: 20px;
+  }
+  .TopNav_btns {
+    height: 35px;
+    width: fit-content;
+    gap: 5px;
+  }
+  .TopNav_btn {
+    padding: 1px 5px;
+    font-size: 14px;
+    width: fit-content;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .TopNav_Title a {
+    font-size: 0px;
+  }
+  .searchInput {
+    padding: 1px 5px;
+    font-size: 14px;
+    width: 105px;
+  }
+  .movieThumbnailimgholder h3 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: wrap;
+    font-size: 10px;
+  }
+  .movieThumbnailimgholder {
+    overflow: hidden;
+  }
+  .TopNav {
+    flex-direction: row;
+    height: fit-content;
+    padding: 10px 0px;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 1024px) {
+  .Thumbnail h3 {
+    font-size: 29px;
+    bottom: 265px;
+  }
+  .Thumbnail h2 {
+    font-size: 15px;
+    bottom: 221px;
+  }
+  .Thumbnail {
+    height: 300px;
+  }
+  .Thumbnail img {
+    height: 300px;
+  }
+  .Hero {
+    flex-direction: column;
+    height: fit-content;
+    padding: 20px;
+  }
+  .Left_Panel,
+  .Right_Text {
+    width: 100%;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  footer {
+    height: fit-content;
+    padding: 20px;
+  }
+
+  .movieThumbnailimgholder h3 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: wrap;
+    font-size: 10px;
+  }
+  .movieThumbnailimgholder {
+    overflow: hidden;
+  }
+}
+
+@media (max-width: 1440px) {
+  .Thumbnail h3 {
+    font-size: 29px;
+    bottom: 265px;
+  }
+  .Thumbnail h2 {
+    font-size: 15px;
+    bottom: 221px;
+  }
+  .Thumbnail {
+    height: 300px;
+  }
+  .Thumbnail img {
+    height: 300px;
+  }
+  .Hero {
+    flex-direction: column;
+    height: fit-content;
+    padding: 20px;
+  }
+  .Left_Panel,
+  .Right_Text {
+    width: 100%;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  footer {
+    height: fit-content;
+    padding: 20px;
+  }
+
+  .movieThumbnailimgholder h3 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: wrap;
+    font-size: 10px;
+  }
+  .movieThumbnailimgholder {
+    overflow: hidden;
+  }
+}
