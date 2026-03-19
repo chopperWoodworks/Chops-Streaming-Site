@@ -221,49 +221,6 @@ footer {
   overflow: hidden;
 }
 
-.movieThumbnail {
-  width: 100%;
-  height: 300px;
-  background-color: transparent;
-  border: 1px solid #153f97;
-  display: flex;
-  justify-content: center;
-  border-radius: 5px;
-  position: relative;
-  transition: all 0.4s ease;
-}
-.movieThumbnailimgholder {
-  width: 100%;
-  height: 100%;
-  border-radius: 5px;
-  transition: all 0.5s ease;
-  object-fit: cover;
-  background-color: #000000;
-  position: relative;
-  bottom: -5px;
-}
-.movieThumbnail img {
-  width: 100%;
-  height: 100%;
-  border-radius: 5px;
-  transition: all 0.5s ease;
-  object-fit: cover;
-  top: 0px;
-}
-
-.movieThumbnail h3 {
-  position: absolute;
-  color: #fff;
-  transition: all 0.3s ease;
-  bottom: 0px;
-  left: 15px;
-  white-space: normal;
-  word-wrap: break-word;
-  font-size: 15px;
-  -webkit-text-stroke: 0.4px #000000;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-}
-
 .movieThumbnail:hover {
   transform: scale(1.03);
   box-shadow: 0px 0px 15px #153f97;
@@ -286,7 +243,7 @@ footer {
 .playerHolder {
   width: 100%;
   height: 100%;
-  background-color: #000000;
+  background-color: #131313;
   border-radius: 10px;
   display: flex;
   justify-content: center;
@@ -298,6 +255,7 @@ footer {
   z-index: 1000;
   display: none;
   align-self: center;
+  padding: 20px;
 }
 
 .CloseBtn {
@@ -312,7 +270,7 @@ footer {
 }
 .player {
   width: 100%;
-  height: 100%;
+  height: 160%;
   border-radius: 10px;
   background-color: #1a1a1a;
   display: flex;
@@ -347,7 +305,7 @@ footer {
 }
 .backdrop {
   width: 100%;
-  height: 155%;
+  height: 100%;
   background-color: #000000a8;
   position: absolute;
   top: 0px;
@@ -357,34 +315,58 @@ footer {
 }
 .seasonsHolder {
   width: 100%;
-  height: 500px;
-  background-color: #000000;
-  position: absolute;
-  scroll-behavior: auto;
-  display: flex;
-  flex-direction: column;
+  position: relative;
+  height: 1200px;
+  background-color: transparent;
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px));
   text-align: center;
-  padding: 10px;
   overflow-y: auto;
   overflow-x: hidden;
-  bottom: -54%;
   padding: 0px;
-  transform: translateX(-50%, 50%);
+  left: -10px;
+  gap: 0px;
+  justify-self: start;
 }
 
+.Hidden {
+  transition: all 0.3s ease;
+  display: none !important;
+}
 .seasoncard {
-  width: 100%;
+  width: 100vw;
   height: fit-content;
-  background-color: #242424;
-  border: 1px solid #153e9700;
-  border-radius: 5px;
+  background-color: transparent;
+  border: 1px solid #3d3d3d00;
   margin-bottom: 10px;
+  position: relative;
   padding: 10px;
   cursor: pointer;
   margin: 0px;
+  top: 0px;
+}
+
+.seasonTitle {
+  width: 100%;
+  height: 70px;
+  background-color: #1d1d1d;
+  padding: 10px;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 0px solid #00000000;
+  border: #fff solid 1px;
+  margin: 0px 0px 10px 0px;
+  display: flex;
+  justify-content: center;
+  align-self: start;
+  text-align: center;
+  transition: all 0.3s ease;
 }
 
 .episodelist {
+  transition: all 0.3s ease;
   list-style: none;
   padding: 0;
   margin: 0;
@@ -393,23 +375,24 @@ footer {
   gap: 5px;
   justify-content: center;
   align-content: center;
+  position: relative;
 }
 .episodecard {
+  font-size: large;
   width: 100%;
-  height: fit-content;
-  background-color: #161616;
-  border: 1px solid #153f97;
-  border-radius: 5px;
+  height: 50px;
+  background-color: #1d1d1d;
   padding: 10px;
   text-align: left;
   cursor: pointer;
   transition: all 0.2s ease;
+  border: 0px solid #00000000;
 }
 .episodecard:hover {
-  background-color: #2b9715;
+  background-color: #353535;
   color: #fff;
-  transform: scale(1.01);
-  box-shadow: 0px 0px 10px #153f97;
+  transform: translateY(-3px);
+  box-shadow: 0px 0px 10px #414141;
 }
 
 .active {
@@ -428,11 +411,11 @@ footer {
   margin: 0px;
   padding: 10px;
   transition: all 0.3s ease;
-  text-shadow: 0px 0px 15px #00ff40;
+  text-shadow: 0px 0px 15px #313131;
 }
 
 .seasonsHolder h2:hover {
-  color: #2b9715;
+  color: #5c5c5c;
   transform: scale(1.02);
   cursor: pointer;
 }
@@ -595,7 +578,7 @@ footer {
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 768px), (max-width: 899px) {
   .Thumbnail h3 {
     font-size: 29px;
     bottom: 265px;
@@ -765,35 +748,73 @@ footer {
     overflow: hidden;
   }
 }
-.SeasonDisplay {
+
+.movieThumbnail {
   width: 100%;
-  height: 45px;
-  background-color: #000000;
-  border-radius: 5px;
+  height: 300px;
   border: 1px solid #153f97;
+  border-radius: 5px;
+  position: relative;
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  position: absolute;
-  z-index: 998;
-  bottom: -55px;
-  text-align: center;
-  justify-content: center;
-  align-items: center;
-  padding: 0px;
+  transition: all 0.3s ease;
 }
 
-.SeasonDisplay h3 {
+.movieThumbnailimgholder {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.movieThumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.movieThumbnail h3 {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  margin: 0;
   color: #fff;
   font-size: 15px;
-  font-weight: 500;
-  margin: 0px;
-  padding: 0px;
-  width: 85%;
-  height: 112%;
   text-align: center;
+  -webkit-text-stroke: 0.4px #ffffff;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  width: 90%;
+}
+.tagsHolder {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  display: flex;
+  gap: 6px;
+  background-color: transparent;
+  width: 100%;
+  align-self: center;
+  justify-content: end;
+  align-items: center;
+  height: 40px;
+}
+
+.movieThumbnailHDTag {
+  background-color: #161616;
+  height: 80%;
   display: flex;
   justify-content: center;
   align-items: center;
+  border-radius: 5px;
+  width: fit-content;
+  padding: 0px 5px;
+}
+
+.movieThumbnailHDTag p {
+  color: #fff;
+  font-size: 15px;
+  padding: 5px;
+  font-weight: 600;
   margin: 0px;
 }
