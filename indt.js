@@ -2,6 +2,20 @@ const movielistHolderSecond = document.querySelector(".movielistHolderSecond");
 movielistHolderSecond.innerHTML = ``;
 const APIKEY = "d8f1a9c985f12819bb82378a65008c32";
 let moviecount = 0;
+
+async function GetSeasonCount(tvshowid) {
+  const GetApi = await fetch(
+    `https://api.themoviedb.org/3/tv/${tvshowid}?api_key=${APIKEY}`,
+  );
+  const JsonData = await GetApi.json();
+  let seasoncount = 0;
+  for (const season of JsonData.seasons) {
+    if (season.season_number === 0) continue;
+    seasoncount++;
+  }
+  return seasoncount;
+}
+
 async function LoadMoviesToList(page) {
   try {
     const GetAPI = await fetch(
@@ -9,14 +23,15 @@ async function LoadMoviesToList(page) {
     );
     const JsonData = await GetAPI.json();
 
-    JsonData.results.forEach((movie) => {
+    JsonData.results.forEach(async (movie) => {
       const MovieCard = document.createElement("div");
       MovieCard.classList.add("movieThumbnail");
 
       MovieCard.innerHTML = ` 
         <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${movie.name} Poster" />
-        <h3>${movie.name}</h3>
+        <div class="movieThumbnailimgholder"><h3>${movie.name}</h3></div>
     `;
+      MovieCard.innerHTML += `<div class="SeasonDisplay"><h3>Seasons: ${await GetSeasonCount(movie.id)}</h3></div>`;
       movielistHolderSecond.appendChild(MovieCard);
       moviecount++;
       MovieCard.addEventListener("click", () => {
@@ -33,7 +48,7 @@ async function LoadMoviesToList(page) {
       "<p>Failed to load movies. Let Chopper know he cant code</p>";
   }
 }
-
+let s = 0;
 async function AddmoviesToList(page) {
   try {
     const GetAPI = await fetch(
@@ -43,7 +58,7 @@ async function AddmoviesToList(page) {
     const movielistHolderSecond = document.querySelector(
       ".movielistHolderSecond",
     );
-    JsonData.results.forEach((movie) => {
+    JsonData.results.forEach(async (movie) => {
       if (moviecount >= 36) return;
       const MovieCard = document.createElement("div");
       MovieCard.classList.add("movieThumbnail");
@@ -52,6 +67,14 @@ async function AddmoviesToList(page) {
         <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${movie.name} Poster" />
         <div class="movieThumbnailimgholder"><h3>${movie.name}</h3></div>
     `;
+      MovieCard.innerHTML += `<div class="SeasonDisplay"><h3>Seasons: ${await GetSeasonCount(movie.id)}</h3></div>`;
+      document.querySelector(".seasonsHolder").innerHTML = ``;
+      const GetApi = await fetch(
+        `https://api.themoviedb.org/3/tv/${tvshowid}?api_key=${APIKEY}`,
+      );
+      const JsonData = await GetApi.json();
+      console.log(JsonData);
+
       movielistHolderSecond.appendChild(MovieCard);
       moviecount++;
       MovieCard.addEventListener("click", () => {
@@ -86,16 +109,28 @@ async function Searchformovie(value) {
       const JsonData = await GetAPI.json();
 
       if (page <= JsonData.total_pages) {
-        JsonData.results.forEach((movie) => {
+        JsonData.results.forEach(async (movie) => {
           if (movie.name) {
             if (alreadyloaded.includes(movie.name.toLowerCase())) return;
             alreadyloaded.push(movie.name.toLowerCase());
             const MovieCard = document.createElement("div");
             MovieCard.classList.add("movieThumbnail");
             console.log(movie.name.toLowerCase());
+            let seasoncount = 0;
+            for (const season of JsonData.seasons) {
+              if (season.season_number === 0) continue;
+              seasoncount++;
+            }
+            const GetApi = await fetch(
+              `https://api.themoviedb.org/3/tv/${tvshowid}?api_key=${APIKEY}`,
+            );
+            const JsonData = await GetApi.json();
             MovieCard.innerHTML += ` 
         <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${movie.name} Poster" />
-        <h3>${movie.name}</h3>`;
+        <div class="movieThumbnailimgholder"><h3>${movie.name}</h3></div>
+    `;
+            movielistHolderSecond.innerHTML += `<div class="SeasonDisplay"><h3>Seasons: ${await GetSeasonCount(movie.id)}</h3></div>`;
+
             movielistHolderSecond.appendChild(MovieCard);
             moviecount++;
             MovieCard.addEventListener("click", () => {
@@ -155,6 +190,7 @@ async function GetSeasons(tvshowid) {
   console.log(JsonData);
 
   for (const season of JsonData.seasons) {
+    if (season.season_number === 0) continue;
     const seasonTitle = document.createElement("h2");
     seasonTitle.textContent = "Season " + season.season_number;
     seasonTitle.classList.add("seasonTitle");
@@ -189,6 +225,7 @@ async function GetSeasons(tvshowid) {
         playeroverview.textContent = episode.overview;
       });
 
+      season.season_number;
       list.appendChild(episodecard);
     });
     document.querySelector(".seasonsHolder").appendChild(seasonTitle);

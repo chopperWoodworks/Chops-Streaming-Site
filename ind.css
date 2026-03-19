@@ -211,13 +211,14 @@ footer {
 .movielistHolderSecond {
   display: grid;
   grid-template-columns: repeat(auto-fill, 200px);
-  gap: 10px;
   background-color: rgba(255, 0, 0, 0);
   width: 100%;
   height: 100%;
   flex-wrap: wrap;
   justify-content: center;
   padding-top: 15px;
+  gap: 60px 10px;
+  overflow: hidden;
 }
 
 .movieThumbnail {
@@ -763,4 +764,36 @@ footer {
   .movieThumbnailimgholder {
     overflow: hidden;
   }
+}
+.SeasonDisplay {
+  width: 100%;
+  height: 45px;
+  background-color: #000000;
+  border-radius: 5px;
+  border: 1px solid #153f97;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  position: absolute;
+  z-index: 998;
+  bottom: -55px;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  padding: 0px;
+}
+
+.SeasonDisplay h3 {
+  color: #fff;
+  font-size: 15px;
+  font-weight: 500;
+  margin: 0px;
+  padding: 0px;
+  width: 85%;
+  height: 112%;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0px;
 }
