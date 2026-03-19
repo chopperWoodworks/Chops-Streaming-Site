@@ -27,12 +27,17 @@ async function LoadMoviesToList(page) {
       const MovieCard = document.createElement("div");
       MovieCard.classList.add("movieThumbnail");
 
-      MovieCard.innerHTML = ` 
+      MovieCard.innerHTML += ` 
         <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${movie.name} Poster" />
         <div class="movieThumbnailimgholder"><h3>${movie.name}</h3></div>
-    `;
-      MovieCard.innerHTML += `<div class="SeasonDisplay"><h3>Seasons: ${await GetSeasonCount(movie.id)}</h3></div>`;
+        <div class="tagsHolder">
+          <div class="movieThumbnailHDTag"><p>HD</p></div>
+          <div class="movieThumbnailHDTag"><p>SS  ${await GetSeasonCount(movie.id)}</p></div>
+        </div>
+      `;
+
       movielistHolderSecond.appendChild(MovieCard);
+      MovieCard.style.opacity = "1";
       moviecount++;
       MovieCard.addEventListener("click", () => {
         Movieplayer(movie.id, movie.name, movie.overview);
@@ -66,8 +71,11 @@ async function AddmoviesToList(page) {
       MovieCard.innerHTML += ` 
         <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${movie.name} Poster" />
         <div class="movieThumbnailimgholder"><h3>${movie.name}</h3></div>
-    `;
-      MovieCard.innerHTML += `<div class="SeasonDisplay"><h3>Seasons: ${await GetSeasonCount(movie.id)}</h3></div>`;
+        <div class="tagsHolder">
+          <div class="movieThumbnailHDTag"><p>HD</p></div>
+          <div class="movieThumbnailHDTag"><p>SS  ${await GetSeasonCount(movie.id)}</p></div>
+        </div>
+      `;
       document.querySelector(".seasonsHolder").innerHTML = ``;
       const GetApi = await fetch(
         `https://api.themoviedb.org/3/tv/${tvshowid}?api_key=${APIKEY}`,
@@ -76,6 +84,7 @@ async function AddmoviesToList(page) {
       console.log(JsonData);
 
       movielistHolderSecond.appendChild(MovieCard);
+      MovieCard.style.opacity = "1";
       moviecount++;
       MovieCard.addEventListener("click", () => {
         Movieplayer(movie.id, movie.name, movie.overview);
@@ -116,11 +125,6 @@ async function Searchformovie(value) {
             const MovieCard = document.createElement("div");
             MovieCard.classList.add("movieThumbnail");
             console.log(movie.name.toLowerCase());
-            let seasoncount = 0;
-            for (const season of JsonData.seasons) {
-              if (season.season_number === 0) continue;
-              seasoncount++;
-            }
             const GetApi = await fetch(
               `https://api.themoviedb.org/3/tv/${tvshowid}?api_key=${APIKEY}`,
             );
@@ -128,10 +132,14 @@ async function Searchformovie(value) {
             MovieCard.innerHTML += ` 
         <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${movie.name} Poster" />
         <div class="movieThumbnailimgholder"><h3>${movie.name}</h3></div>
-    `;
-            movielistHolderSecond.innerHTML += `<div class="SeasonDisplay"><h3>Seasons: ${await GetSeasonCount(movie.id)}</h3></div>`;
+        <div class="tagsHolder">
+          <div class="movieThumbnailHDTag"><p>HD</p></div>
+          <div class="movieThumbnailHDTag"><p>SS  ${await GetSeasonCount(movie.id)}</p></div>
+        </div>
+      `;
 
             movielistHolderSecond.appendChild(MovieCard);
+            MovieCard.style.opacity = "1";
             moviecount++;
             MovieCard.addEventListener("click", () => {
               Movieplayer(movie.id, movie.name, movie.overview);
@@ -196,19 +204,30 @@ async function GetSeasons(tvshowid) {
     seasonTitle.classList.add("seasonTitle");
     const seasoncard = document.createElement("div");
     seasoncard.classList.add("seasoncard");
+    seasoncard.classList.add("Hidden");
+    seasonTitle.addEventListener("click", () => {
+      document.querySelectorAll(".seasonTitle").forEach((title) => {
+        if (title !== seasonTitle) {
+          title.classList.toggle("Hidden");
+        }
+      });
+      seasoncard.classList.toggle("Hidden");
+    });
     const seasondata = await fetch(
       `https://api.themoviedb.org/3/tv/${tvshowid}/season/${season.season_number}?api_key=${APIKEY}`,
     );
     const seasonJson = await seasondata.json();
-    const list = document.createElement("ul");
+    const list = document.createElement("div");
     list.classList.add("episodelist");
 
     seasonJson.episodes.forEach((episode) => {
       const episodecard = document.createElement("button");
       episodecard.classList.add("episodecard");
-      episodecard.textContent =
-        "Season " + season.season_number + ". " + episode.name;
-
+      if (!episode.name.toLowerCase().includes("episode")) {
+        episodecard.textContent = `EPISODE ${episode.episode_number}: ${episode.name}`;
+      } else {
+        episodecard.textContent = `${episode.name}`;
+      }
       episodecard.addEventListener("click", () => {
         episodecard.classList.add("active");
         const seasoncards = document.querySelectorAll(".episodecard");
@@ -217,26 +236,28 @@ async function GetSeasons(tvshowid) {
             card.classList.remove("active");
           }
         });
-        let playername = document.querySelector(".player h2");
+        let playername = document.querySelector(".player h1");
         let playervid = document.querySelector(".player iframe");
         let playeroverview = document.querySelector(".player p");
+        let EpisodeTitle = document.querySelector(".EpisodeTitle");
         playervid.src = `https://vidsrc.mov/embed/tv/${tvshowid}/${season.season_number}/${episode.episode_number}`;
-        playername.textContent = episode.name;
+        EpisodeTitle.textContent = `Episode ${episode.episode_number}: ${episode.name}`;
         playeroverview.textContent = episode.overview;
       });
 
-      season.season_number;
       list.appendChild(episodecard);
     });
+
     document.querySelector(".seasonsHolder").appendChild(seasonTitle);
     document.querySelector(".seasonsHolder").appendChild(seasoncard);
     seasoncard.appendChild(list);
+    movielistHolderSecond.innerHTML = ``;
   }
 }
 
 function Movieplayer(movieid, moviename, movieoverview) {
   let playerHolder = document.querySelector(".playerHolder");
-  let playername = document.querySelector(".player h2");
+  let playername = document.querySelector(".player h4");
   let playervid = document.querySelector(".player iframe");
   let playeroverview = document.querySelector(".player p");
   playervid.src = `https://vidsrc.mov/embed/tv/${movieid}`;
@@ -244,6 +265,8 @@ function Movieplayer(movieid, moviename, movieoverview) {
   playeroverview.textContent = movieoverview;
   playerHolder.style.display = "block";
   GetSeasons(movieid);
+  let EpisodeTitle = document.querySelector(".EpisodeTitle");
+  EpisodeTitle.textContent = `${moviename} Episode 1`;
   document.querySelector(".backdrop").style.display = "block";
 }
 
@@ -259,4 +282,8 @@ closeBtn.addEventListener("click", () => {
   document.querySelector(".backdrop").style.display = "none";
   let playervid = document.querySelector(".player iframe");
   playervid.src = ``;
+  LoadMoviesToList(currentPage);
+  AddmoviesToList(currentPage + 1);
+  console.log(currentPage);
+  scrollToBottom();
 });

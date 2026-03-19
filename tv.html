@@ -28,7 +28,7 @@
           >
           <input
             type="text"
-            class="searchInput"
+            class="searchInput TopNav_btn"
             placeholder="Search Tv shows..."
           />
         </div>
@@ -72,19 +72,37 @@
 
     <section class="playerHolder">
       <div class="player">
-        <iframe
-          id="playervid"
-          width="100%"
-          height="100%"
-          frameborder="0"
-          allowfullscreen
-        ></iframe>
-        <h2>Movie Title</h2>
-        <p>Movie Overview</p>
+        <div class="TopVideoSection">
+          <div class="LeftSide">
+            <div class="seasonsHolder"></div>
+          </div>
+
+          <div class="VideoHolder">
+            <div class="VideoTitle">
+              <h4>Movie Title</h4>
+            </div>
+            <iframe
+              id="playervid"
+              width="100%"
+              height="100%"
+              frameborder="0"
+              allowfullscreen
+            ></iframe>
+            <div class="EpisodeTitle">a</div>
+            <div class="VideoOverview"><p></p></div>
+          </div>
+
+          <div class="RightSide"></div>
+        </div>
+
+        <h2></h2>
+        <p></p>
         <button class="CloseBtn Hero_btn">Close</button>
-        <div class="seasonsHolder"></div>
       </div>
     </section>
     <section class="backdrop"></section>
+    <footer>
+      <p>&copy; 2026 Chops Streaming. All rights reserved.</p>
+    </footer>
   </body>
 </html>

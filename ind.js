@@ -16,6 +16,9 @@ async function LoadMoviesToList(page) {
       MovieCard.innerHTML = ` 
         <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${movie.title} Poster" />
         <h3>${movie.title}</h3>
+                <div class="tagsHolder">
+          <div class="movieThumbnailHDTag"><p>HD</p></div>
+        </div>
     `;
       movielistHolderSecond.appendChild(MovieCard);
       moviecount++;
@@ -51,6 +54,9 @@ async function AddmoviesToList(page) {
       MovieCard.innerHTML += ` 
         <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${movie.title} Poster" />
         <div class="movieThumbnailimgholder"><h3>${movie.title}</h3></div>
+                <div class="tagsHolder">
+          <div class="movieThumbnailHDTag"><p>HD</p></div>
+        </div>
     `;
       movielistHolderSecond.appendChild(MovieCard);
       moviecount++;
@@ -95,7 +101,10 @@ async function Searchformovie(value) {
             console.log(movie.title.toLowerCase());
             MovieCard.innerHTML += ` 
         <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${movie.title} Poster" />
-        <h3>${movie.title}</h3>`;
+        <h3>${movie.title}</h3>
+                <div class="tagsHolder">
+          <div class="movieThumbnailHDTag"><p>HD</p></div>
+        </div>`;
             movielistHolderSecond.appendChild(MovieCard);
             moviecount++;
             MovieCard.addEventListener("click", () => {
@@ -156,6 +165,7 @@ function Movieplayer(movieid, movietitle, movieoverview) {
   playerTitle.textContent = movietitle;
   playeroverview.textContent = movieoverview;
   playerHolder.style.display = "block";
+  movielistHolderSecond.innerHTML = ``;
 }
 
 const ToTopbtn = document.querySelector(".ToTopBtn");
@@ -167,4 +177,6 @@ const closeBtn = document.querySelector(".CloseBtn");
 closeBtn.addEventListener("click", () => {
   let playerHolder = document.querySelector(".playerHolder");
   playerHolder.style.display = "none";
+  LoadMoviesToList(currentPage);
+  AddmoviesToList(currentPage + 1);
 });
