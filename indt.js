@@ -10,10 +10,22 @@ async function GetSeasonCount(tvshowid) {
   const JsonData = await GetApi.json();
   let seasoncount = 0;
   for (const season of JsonData.seasons) {
-    if (season.season_number === 0) continue;
+    if (season.season_number === 0 || season.episode_count === 0) continue;
     seasoncount++;
   }
   return seasoncount;
+}
+
+async function GetMovieGenre(movieid) {
+  const GetApi = await fetch(
+    `https://api.themoviedb.org/3/tv/${movieid}?api_key=${APIKEY}`,
+  );
+  let genres = [];
+  const JsonData = await GetApi.json();
+  JsonData.genres.map((genre) => {
+    genres.push(genre.name);
+  });
+  return genres;
 }
 
 async function LoadMoviesToList(page) {
@@ -78,10 +90,9 @@ async function AddmoviesToList(page) {
       `;
       document.querySelector(".seasonsHolder").innerHTML = ``;
       const GetApi = await fetch(
-        `https://api.themoviedb.org/3/tv/${tvshowid}?api_key=${APIKEY}`,
+        `https://api.themoviedb.org/3/tv/${movie.id}?api_key=${APIKEY}`,
       );
       const JsonData = await GetApi.json();
-      console.log(JsonData);
 
       movielistHolderSecond.appendChild(MovieCard);
       MovieCard.style.opacity = "1";
@@ -124,9 +135,8 @@ async function Searchformovie(value) {
             alreadyloaded.push(movie.name.toLowerCase());
             const MovieCard = document.createElement("div");
             MovieCard.classList.add("movieThumbnail");
-            console.log(movie.name.toLowerCase());
             const GetApi = await fetch(
-              `https://api.themoviedb.org/3/tv/${tvshowid}?api_key=${APIKEY}`,
+              `https://api.themoviedb.org/3/tv/${movie.id}?api_key=${APIKEY}`,
             );
             const JsonData = await GetApi.json();
             MovieCard.innerHTML += ` 
@@ -143,6 +153,7 @@ async function Searchformovie(value) {
             moviecount++;
             MovieCard.addEventListener("click", () => {
               Movieplayer(movie.id, movie.name, movie.overview);
+              console.log(GetMovieGenre(movie.id));
               console.log(movie.id);
             });
           }
@@ -188,7 +199,7 @@ searchInput.addEventListener("keypress", (e) => {
     window.scrollTo({ bottom: 0, behavior: "smooth" });
   }
 });
-
+let tvshowidD;
 async function GetSeasons(tvshowid) {
   document.querySelector(".seasonsHolder").innerHTML = ``;
   const GetApi = await fetch(
@@ -196,9 +207,9 @@ async function GetSeasons(tvshowid) {
   );
   const JsonData = await GetApi.json();
   console.log(JsonData);
-
+  tvshowidD = tvshowid;
   for (const season of JsonData.seasons) {
-    if (season.season_number === 0) continue;
+    if (season.season_number === 0 || season.episode_count === 0) continue;
     const seasonTitle = document.createElement("h2");
     seasonTitle.textContent = "Season " + season.season_number;
     seasonTitle.classList.add("seasonTitle");
@@ -214,7 +225,7 @@ async function GetSeasons(tvshowid) {
       seasoncard.classList.toggle("Hidden");
     });
     const seasondata = await fetch(
-      `https://api.themoviedb.org/3/tv/${tvshowid}/season/${season.season_number}?api_key=${APIKEY}`,
+      `https://api.themoviedb.org/3/tv/${tvshowidD}/season/${season.season_number}?api_key=${APIKEY}`,
     );
     const seasonJson = await seasondata.json();
     const list = document.createElement("div");
@@ -240,7 +251,7 @@ async function GetSeasons(tvshowid) {
         let playervid = document.querySelector(".player iframe");
         let playeroverview = document.querySelector(".player p");
         let EpisodeTitle = document.querySelector(".EpisodeTitle");
-        playervid.src = `https://vidsrc.mov/embed/tv/${tvshowid}/${season.season_number}/${episode.episode_number}`;
+        playervid.src = `https://vidsrc.mov/embed/tv/${tvshowidD}/${season.season_number}/${episode.episode_number}`;
         EpisodeTitle.textContent = `Episode ${episode.episode_number}: ${episode.name}`;
         playeroverview.textContent = episode.overview;
       });
