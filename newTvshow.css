@@ -441,6 +441,57 @@ body {
   user-select: all;
   font-size: 0.95em;
 }
+.genrelistcontainer {
+  width: 10%;
+  height: 85%;
+  display: flex;
+  background-color: var(--primary-color);
+  position: fixed;
+  top: 62%;
+  transform: translateY(-60%);
+  border: var(--secondary-accent-color) 1px solid;
+  z-index: 18;
+  border-radius: 10px;
+  padding: 10px 10px;
+  justify-content: center;
+  align-items: center;
+  right: 0.8%;
+  transition: all 0.3s ease-in-out;
+}
+.genrelistcontainer.side {
+  right: -15%;
+}
+
+.genrelistcontainer_List {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  justify-content: start;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  font-size: 18px;
+  padding: 0px;
+}
+.genrelistcontainer_List_item {
+  background-color: #202020;
+  display: flex;
+  width: 100% !important;
+  height: fit-content;
+  padding: 5px 8px;
+  border: 1px solid transparent;
+  height: 100%;
+  transition: all 0.1s ease-in-out;
+}
+.genrelistcontainer_List_item:hover {
+  background-color: #313131;
+  border: 1px solid var(--secondary-accent-color);
+  transition: all 0.1s ease-in-out;
+}
+.genrelistcontainer_List_item:active {
+  scale: 0.8;
+  transition: all 0.06s ease-in-out;
+}
 .bottomsendertHolder {
   display: flex;
   width: 100%;

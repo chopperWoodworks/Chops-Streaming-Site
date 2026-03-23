@@ -51,12 +51,28 @@ async function NextPage() {
     window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
   }
 }
+async function NextGPage(currentgen) {
+  if (page < MaxPages) {
+    page++;
+    await loadGenre(currentgen[0], currentgen[1]);
+    LoadMoviesToList();
+    window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
+  }
+}
 
 async function BackPage() {
   if (page > 1) {
     page--;
     await LoadPopularMovies();
     LoadMoviesToList();
+  }
+}
+async function BackGPage() {
+  if (page > 1) {
+    page--;
+    await loadGenre(currentgen[0], currentgen[1]);
+    LoadMoviesToList();
+    window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
   }
 }
 function ShowSearchMenuSection() {
@@ -82,7 +98,6 @@ async function LoadPopularMovies() {
   AllFullMovieData = [];
   const Movies = APIDATA.results;
   Movies.forEach((movie) => {
-    console.log(movie);
     const FullMovieData = {
       MovieTitle: movie.name || movie.original_title,
       MovieId: movie.id,
@@ -100,10 +115,19 @@ async function LoadPopularMovies() {
   });
 }
 nextbtn.addEventListener("click", () => {
-  NextPage();
+  if (genreenabled) {
+    console.log(currentgen);
+    NextGPage(currentgen);
+  } else {
+    NextPage();
+  }
 });
 Backbtn.addEventListener("click", () => {
-  NextPage();
+  if (genreenabled) {
+    BackGPage();
+  } else {
+    BackPage();
+  }
 });
 const AprovedQuerys = [];
 async function LoadSearchedMovies() {
@@ -151,6 +175,69 @@ async function LoadSearchedMovies() {
     });
   }
   LoadMoviesToList();
+}
+const genrelist = document.querySelector(".genrelistcontainer");
+const acgenreList = document.querySelector(".genrelistcontainer_List");
+let TVGenres = [];
+async function addtogenrelist() {
+  const apidata = await fetch(
+    `https://api.themoviedb.org/3/genre/tv/list?api_key=${APIKEY}`,
+  );
+  const jsondata = await apidata.json();
+  console.log(jsondata);
+  jsondata.genres.forEach((genre) => {
+    const thisgenre = {
+      GenreName: genre.name,
+      GenreId: genre.id,
+    };
+    TVGenres.push(thisgenre);
+  });
+  TVGenres.forEach((genre) => {
+    const genrediv = document.createElement("div");
+    genrediv.classList.add("genrelistcontainer_List_item");
+    genrediv.textContent = genre.GenreName;
+    acgenreList.appendChild(genrediv);
+    genrediv.addEventListener("click", () => {
+      loadGenre(genre.GenreName, genre.GenreId);
+    });
+  });
+}
+console.log;
+addtogenrelist();
+document.querySelector(".genres").addEventListener("click", () => {
+  Showgenrelist();
+});
+let currentgen = "";
+let genreenabled = false;
+async function loadGenre(genrename, genreid) {
+  const res = await fetch(
+    `https://api.themoviedb.org/3/discover/tv?api_key=${APIKEY}&with_genres=${genreid}&page=${page}`,
+  );
+  const data = await res.json();
+  console.log(data);
+  AllFullMovieData.splice(0, AllFullMovieData.length);
+  data.results.forEach((movie) => {
+    if (movie.poster_path === null) return;
+    const FullMovieData = {
+      MovieTitle: movie.name || movie.original_title,
+      MovieId: movie.id,
+      MovieOverview: movie.overview,
+      MovieVoteAverage: movie.vote_average,
+      MoviePopularity: movie.popularity,
+      MoviePosterPath: movie.poster_path,
+      Movierelease_date: movie.first_air_date,
+      MovieImage: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
+    };
+    AllFullMovieData.push(FullMovieData);
+  });
+  console.log(AllFullMovieData);
+  currentgen = [genreid, genrename];
+  LoadMoviesToList();
+  genreenabled = true;
+}
+
+function Showgenrelist() {
+  genrelist.classList.toggle("side");
 }
 function RatingToStars(rating) {
   const Fullstars = Math.floor(rating / 2);
