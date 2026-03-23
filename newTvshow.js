@@ -1,3 +1,4 @@
+const currentYear = "2026";
 let TopMenuButtons = document.querySelectorAll(
   ".PageSwapbt_PageSwapbtns_back_PageSwapbtn",
 );
@@ -36,18 +37,26 @@ function clearTopMenuactivebutton() {
   activebutton.classList.toggle("active");
 }
 
+const nextbtn = document.querySelector(".Next");
+const Backbtn = document.querySelector(".Back");
 function SetTopMenuactivebutton(button) {
   button.classList.toggle("active");
 }
-function NextPage() {
+let FT = true;
+async function NextPage() {
   if (page < MaxPages) {
     page++;
+    await LoadPopularMovies();
+    LoadMoviesToList();
+    window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
   }
 }
 
-function BackPage() {
+async function BackPage() {
   if (page > 1) {
     page--;
+    await LoadPopularMovies();
+    LoadMoviesToList();
   }
 }
 function ShowSearchMenuSection() {
@@ -64,12 +73,13 @@ SearchMenuCloseButton.addEventListener("click", () => {
 });
 let MaxPages = 0;
 const MovieList = document.querySelector(".MovieList");
-const AllFullMovieData = [];
+let AllFullMovieData = [];
 async function LoadPopularMovies() {
   const APIFETCH = await fetch(
     `https://api.themoviedb.org/3/tv/popular?api_key=${APIKEY}&page=${page}`,
   );
   const APIDATA = await APIFETCH.json();
+  AllFullMovieData = [];
   const Movies = APIDATA.results;
   Movies.forEach((movie) => {
     console.log(movie);
@@ -89,13 +99,23 @@ async function LoadPopularMovies() {
     MaxPages = APIDATA.total_pages;
   });
 }
-
+nextbtn.addEventListener("click", () => {
+  NextPage();
+});
+Backbtn.addEventListener("click", () => {
+  NextPage();
+});
 const AprovedQuerys = [];
 async function LoadSearchedMovies() {
   MovieList.innerHTML = "";
   AllFullMovieData.splice(0, AllFullMovieData.length);
 
   const SearchValue = document.querySelector(".searchmenu_input input");
+  if (SearchValue.value.trim() === "") {
+    page = page + 1;
+    await LoadPopularMovies();
+    LoadMoviesToList();
+  }
   if (SearchValue.value.trim() !== "") {
     const APIFETCH = await fetch(
       `https://api.themoviedb.org/3/search/tv?api_key=${APIKEY}&query=${encodeURIComponent(SearchValue.value.trim())}`,
@@ -123,7 +143,7 @@ async function LoadSearchedMovies() {
           MovieVoteAverage: movie.vote_average,
           MoviePopularity: movie.popularity,
           MoviePosterPath: movie.poster_path,
-          Movierelease_date: movie.release_date,
+          Movierelease_date: movie.first_air_date,
           MovieImage: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
         };
         AllFullMovieData.push(FullMovieData);
@@ -138,13 +158,18 @@ function RatingToStars(rating) {
   const emptystars = 5 - Fullstars - halfstars;
   return "★".repeat(Fullstars) + "½".repeat(halfstars) + "☆".repeat(emptystars);
 }
-
+function convertdate(date) {
+  const seperated = date.split("-");
+  const year = seperated[0];
+  return year;
+}
 function LoadMoviesToList() {
   AllFullMovieData.forEach((movie, index) => {
     const MovieCard = document.createElement("div");
     MovieCard.classList.add("MovieList_Movie");
     MovieCard.classList.add("BHidden");
     MovieCard.innerHTML = `
+    <div class="Tags"> <div class="tag">${convertdate(movie.Movierelease_date)}</div> <div class="tag">HD</div> </div>
       <div class="MoviePosterContainer">
         <img src="${movie.MovieImage}"/>
       </div>
@@ -166,6 +191,10 @@ function LoadMoviesToList() {
         </div>
       </div>`;
     MovieList.appendChild(MovieCard);
+    changebgcolortag(
+      MovieCard.querySelector(".Tags").querySelector(".tag"),
+      convertdate(movie.Movierelease_date),
+    );
     const playbutton = MovieCard.querySelector(".playbutton");
     playbutton.addEventListener("click", () => {
       LoadVideoPlayer(movie.MovieId);
@@ -175,7 +204,32 @@ function LoadMoviesToList() {
     }, index * 50);
   });
 }
+function changebgcolortag(tag, year) {
+  if (parseInt(year) === parseInt(currentYear))
+    tag.style.backgroundColor = "#06ac00";
 
+  if (parseInt(year) !== parseInt(currentYear)) {
+    if (parseInt(year) === parseInt(currentYear) - 1) {
+      tag.style.backgroundColor = "#58b600";
+      return;
+    } else if (
+      parseInt(year) <= parseInt(currentYear) - 2 &&
+      parseInt(year) >= parseInt(currentYear) - 11
+    ) {
+      tag.style.backgroundColor = "#06ac00";
+      return;
+    } else if (
+      parseInt(year) <= parseInt(currentYear) - 11 &&
+      parseInt(year) >= parseInt(currentYear) - 26
+    ) {
+      tag.style.backgroundColor = "#ff6600";
+      return;
+    } else if (parseInt(year) < parseInt(currentYear) - 26) {
+      tag.style.backgroundColor = "#444444";
+      return;
+    }
+  }
+}
 async function LoadVideoPlayer(movieId) {
   const selectedMovie = AllFullMovieData.find(
     (movie) => movie.MovieId === movieId,
@@ -349,9 +403,12 @@ async function LoadSeasons(tvshowidD, seasonNumber) {
   const season = await APIFETCH.json();
 }
 
-SearchMenuInput.addEventListener("input", () => {
-  LoadSearchedMovies();
+async function InitT() {
+  await LoadSearchedMovies();
   LoadMoviesToList();
+}
+SearchMenuInput.addEventListener("input", () => {
+  InitT();
 });
 
 async function Init() {

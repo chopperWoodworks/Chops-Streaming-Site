@@ -1,3 +1,4 @@
+const currentYear = "2026";
 let TopMenuButtons = document.querySelectorAll(
   ".PageSwapbt_PageSwapbtns_back_PageSwapbtn",
 );
@@ -28,6 +29,32 @@ const SearchButton = document.querySelector(".search");
 const SearchMenuCloseButton = document.querySelector(
   ".searchmenu_title_closebtn",
 );
+const nextbtn = document.querySelector(".Next");
+const Backbtn = document.querySelector(".Back");
+
+async function NextPage() {
+  if (page < MaxPages) {
+    page++;
+    await LoadPopularMovies();
+    LoadMoviesToList();
+    window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
+  }
+}
+
+async function BackPage() {
+  if (page > 1) {
+    page--;
+    await LoadPopularMovies();
+    LoadMoviesToList();
+  }
+}
+
+nextbtn.addEventListener("click", () => {
+  NextPage();
+});
+Backbtn.addEventListener("click", () => {
+  NextPage();
+});
 const SearchMenuInput = document.querySelector(".searchmenu_input");
 const APIKEY = "d8f1a9c985f12819bb82378a65008c32";
 let page = 1;
@@ -45,17 +72,7 @@ function RatingToStars(rating) {
   const emptystars = 5 - Fullstars - halfstars;
   return "★".repeat(Fullstars) + "½".repeat(halfstars) + "☆".repeat(emptystars);
 }
-function NextPage() {
-  if (page < MaxPages) {
-    page++;
-  }
-}
 
-function BackPage() {
-  if (page > 1) {
-    page--;
-  }
-}
 function ShowSearchMenuSection() {
   SearchMenuSection.classList.toggle("Hidden");
   LoadPopularMovies();
@@ -70,12 +87,13 @@ SearchMenuCloseButton.addEventListener("click", () => {
 });
 let MaxPages = 0;
 const MovieList = document.querySelector(".MovieList");
-const AllFullMovieData = [];
+let AllFullMovieData = [];
 async function LoadPopularMovies() {
   const APIFETCH = await fetch(
     `https://api.themoviedb.org/3/movie/popular?api_key=${APIKEY}&page=${page}`,
   );
   const APIDATA = await APIFETCH.json();
+  AllFullMovieData = [];
   const Movies = APIDATA.results;
   Movies.forEach((movie) => {
     console.log(movie);
@@ -139,13 +157,18 @@ async function LoadSearchedMovies() {
   }
   LoadMoviesToList();
 }
-
+function convertdate(date) {
+  const seperated = date.split("-");
+  const year = seperated[0];
+  return year;
+}
 function LoadMoviesToList() {
   AllFullMovieData.forEach((movie, index) => {
     const MovieCard = document.createElement("div");
     MovieCard.classList.add("MovieList_Movie");
     MovieCard.classList.add("BHidden");
     MovieCard.innerHTML = `
+    <div class="Tags"> <div class="tag">${convertdate(movie.Movierelease_date)}</div> <div class="tag">HD</div> </div>
       <div class="MoviePosterContainer">
         <img src="${movie.MovieImage}"/>
       </div>
@@ -155,7 +178,7 @@ function LoadMoviesToList() {
           <div class="bottomsendertHolder">
 <div class="bottomsendert">
             <div class="MovieExtraInfo">
-              <p class="MovieGenre">Views: ${Math.round(movie.MoviePopularity)}</p>
+              <p class="MovieGenre">Views:<br> ${Math.round(movie.MoviePopularity)}</p>
               <p class="MovieGenre">Rating:<br>${RatingToStars(movie.MovieVoteAverage)}</p>
             </div>
                     <div class="playbuttonholder">
@@ -167,6 +190,10 @@ function LoadMoviesToList() {
         </div>
       </div>`;
     MovieList.appendChild(MovieCard);
+    changebgcolortag(
+      MovieCard.querySelector(".Tags").querySelector(".tag"),
+      convertdate(movie.Movierelease_date),
+    );
     const playbutton = MovieCard.querySelector(".playbutton");
     playbutton.addEventListener("click", () => {
       LoadVideoPlayer(movie.MovieId);
@@ -175,6 +202,26 @@ function LoadMoviesToList() {
       MovieCard.classList.remove("BHidden");
     }, index * 50);
   });
+}
+function changebgcolortag(tag, year) {
+  if (parseInt(year) === parseInt(currentYear))
+    tag.style.backgroundColor = "#06ac00";
+
+  if (parseInt(year) !== parseInt(currentYear)) {
+    if (parseInt(year) === parseInt(currentYear) - 1) {
+      tag.style.backgroundColor = "#ff6600";
+      return;
+    } else if (
+      parseInt(year) <= parseInt(currentYear) - 2 &&
+      parseInt(year) >= parseInt(currentYear) - 7
+    ) {
+      tag.style.backgroundColor = "#bdaa00";
+      return;
+    } else if (parseInt(year) < parseInt(currentYear) - 7) {
+      tag.style.backgroundColor = "#444444";
+      return;
+    }
+  }
 }
 
 async function LoadVideoPlayer(movieId) {
