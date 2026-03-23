@@ -265,7 +265,17 @@ function convertdate(date) {
   return year;
 }
 function Showgenrelist() {
-  genrelist.classList.toggle("side");
+  const viewportWidth = window.innerWidth;
+  if (viewportWidth == 768) {
+    genrelist.classList.remove("side");
+    genrelist.classList.toggle("sside");
+  } else if (viewportWidth <= 425) {
+    genrelist.classList.remove("side");
+    genrelist.classList.add(".genrelistcontainerT");
+    genrelist.classList.toggle("bside");
+  } else {
+    genrelist.classList.toggle("side");
+  }
 }
 function LoadMoviesToList() {
   AllFullMovieData.forEach((movie, index) => {
@@ -361,6 +371,19 @@ SearchMenuInput.addEventListener("input", () => {
 async function Init() {
   await LoadPopularMovies();
   LoadMoviesToList();
+  const viewportWidth = window.innerWidth;
+  movie = document.querySelector(".MovieList_Movie");
+  if (viewportWidth == 353) {
+    console.log(getComputedStyle(movie).width);
+    const btns = document.querySelectorAll(
+      ".PageSwapbt_PageSwapbtns_back_PageSwapbtn",
+    );
+    let target = "";
+    target = btns[2];
+    target.textContent = "TV";
+  }
+  Showgenrelist();
+  Showgenrelist();
 }
 
 window.onload = () => {

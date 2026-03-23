@@ -237,7 +237,17 @@ async function loadGenre(genrename, genreid) {
 }
 
 function Showgenrelist() {
-  genrelist.classList.toggle("side");
+  const viewportWidth = window.innerWidth;
+  if (viewportWidth == 768) {
+    genrelist.classList.remove("side");
+    genrelist.classList.toggle("sside");
+  } else if (viewportWidth <= 425) {
+    genrelist.classList.remove("side");
+    genrelist.classList.add(".genrelistcontainerT");
+    genrelist.classList.toggle("bside");
+  } else {
+    genrelist.classList.toggle("side");
+  }
 }
 function RatingToStars(rating) {
   const Fullstars = Math.floor(rating / 2);
@@ -497,10 +507,21 @@ async function InitT() {
 SearchMenuInput.addEventListener("input", () => {
   InitT();
 });
-
+let movie = document.querySelectorAll(".MovieList_Movie");
 async function Init() {
   await LoadPopularMovies();
   LoadMoviesToList();
+  const viewportWidth = window.innerWidth;
+  movie = document.querySelector(".MovieList_Movie");
+  if (viewportWidth == 353) {
+    console.log(getComputedStyle(movie).width);
+    const btns = document.querySelectorAll(".active");
+    let target = "";
+    target = btns[0];
+    target.textContent = "TV";
+  }
+  Showgenrelist();
+  Showgenrelist();
 }
 
 window.onload = () => {

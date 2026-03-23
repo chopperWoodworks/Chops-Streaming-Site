@@ -701,3 +701,313 @@ body {
   transition: all 0.3s ease-in-out;
   color: #ffffff;
 }
+.genrelistcontainerT {
+  width: 10%;
+  height: 85%;
+  display: flex;
+  background-color: var(--primary-color);
+  position: fixed;
+  top: 62%;
+  transform: translateY(-60%);
+  border: var(--secondary-accent-color) 1px solid;
+  z-index: 18;
+  border-radius: 10px;
+  padding: 10px 10px;
+  justify-content: center;
+  align-items: center;
+  right: 33%;
+  transition: all 0.3s ease-in-out;
+}
+.genrelistcontainer.side {
+  right: -15%;
+}
+.genrelistcontainer.sside {
+  right: -45%;
+}
+.genrelistcontainer.bside {
+  right: -180%;
+}
+@media (max-width: 600px) {
+  .Logo {
+    display: none;
+  }
+  .TopNav {
+    justify-content: center;
+    align-items: center;
+  }
+  .genrelistcontainer {
+    width: 50% !important;
+    overflow-y: auto;
+  }
+}
+
+@media (max-width: 564px) {
+  .MovieList {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    justify-content: center;
+  }
+  .MovieList_Movie {
+    width: 150px;
+    height: fit-content;
+  }
+  .bottomsendert {
+    justify-content: center;
+  }
+  .MovieExtraInfo {
+    display: none;
+  }
+  .playbuttonholder {
+    width: 60%;
+    padding: 0px 5px;
+  }
+  .playbutton {
+    width: 100%;
+    border-radius: 10%;
+  }
+  .genrelistcontainer {
+    width: 50% !important;
+    overflow-y: auto;
+  }
+}
+@media (max-width: 425px) {
+  .Logo {
+    display: none;
+  }
+  .TopNav {
+    justify-content: center;
+    align-items: center;
+  }
+  .MovieList {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 0.4fr));
+    justify-content: center;
+  }
+  .MovieList_Movie {
+    width: 150px;
+    height: fit-content;
+  }
+  .bottomsendert {
+    justify-content: center;
+  }
+  .MovieExtraInfo {
+    display: none;
+  }
+  .playbuttonholder {
+    width: 60%;
+    padding: 0px 5px;
+  }
+  .playbutton {
+    width: 100%;
+    border-radius: 10%;
+  }
+  .PageSwapbt {
+    margin: 0px 15px !important;
+  }
+  .genrelistcontainer {
+    width: 50% !important;
+    overflow-y: auto;
+  }
+}
+@media (max-width: 375px) {
+  .Logo {
+    display: none;
+  }
+  .TopNav {
+    justify-content: center;
+    align-items: center;
+  }
+  .MovieList {
+    grid-template-columns: repeat(auto-fill, minmax(252px, 2fr)) !important;
+    justify-content: center;
+  }
+  .MovieList_Movie {
+    width: 252px !important;
+    height: fit-content;
+  }
+  .bottomsendert {
+    justify-content: center;
+  }
+  .MovieExtraInfo {
+    display: none;
+  }
+  .playbuttonholder {
+    width: 60%;
+    padding: 0px 5px;
+  }
+  .playbutton {
+    width: 100%;
+    border-radius: 10%;
+  }
+  .PageSwapbt {
+    margin: 0px 15px !important;
+  }
+  .PageSwapbt_PageSwapbtns_back_PageSwapbtn {
+    width: fit-content;
+    padding: 5px;
+  }
+  .genrelistcontainer {
+    width: 50% !important;
+    overflow-y: auto;
+  }
+}
+@media (max-width: 433px) {
+  .MovieList_Movie {
+    width: 122px;
+    height: fit-content;
+  }
+}
+@media (max-width: 320px) {
+  .genrelistcontainer {
+    width: 50% !important;
+    overflow-y: auto;
+  }
+  .Logo {
+    display: none;
+  }
+  .TopNav {
+    justify-content: center;
+    align-items: center;
+  }
+  .MovieList {
+    grid-template-columns: repeat(auto-fill, minmax(252px, 2fr)) !important;
+    justify-content: center;
+  }
+  .MovieList_Movie {
+    width: 252px !important;
+    height: fit-content;
+  }
+  .bottomsendert {
+    justify-content: center;
+  }
+  .MovieExtraInfo {
+    display: none;
+  }
+  .playbuttonholder {
+    width: 60%;
+    padding: 0px 5px;
+  }
+  .playbutton {
+    width: 100%;
+    border-radius: 10%;
+  }
+  .PageSwapbt {
+    margin: 0px 15px !important;
+  }
+  .PageSwapbt_PageSwapbtns_back_PageSwapbtn {
+    width: fit-content;
+    padding: 5px;
+  }
+}
+@media (max-width: 1024px) {
+  .genrelistcontainer {
+    width: 20%;
+    overflow-y: auto;
+  }
+  .TopNav {
+    align-items: center;
+  }
+  .MovieList {
+    grid-template-columns: repeat(auto-fill, minmax(122px, 1fr));
+    justify-content: center;
+  }
+  .MovieList_Movie {
+    width: 122px;
+    height: fit-content;
+  }
+  .bottomsendert {
+    justify-content: center;
+  }
+  .MovieExtraInfo {
+    display: none;
+  }
+  .playbuttonholder {
+    width: 60%;
+    padding: 0px 5px;
+  }
+  .playbutton {
+    width: 100%;
+    border-radius: 10%;
+  }
+  .PageSwapbt {
+    margin: 0px 15px !important;
+  }
+  .PageSwapbt_PageSwapbtns_back_PageSwapbtn {
+    width: fit-content;
+    padding: 5px;
+  }
+}
+@media (max-width: 1440px) {
+  .genrelistcontainer {
+    width: 15%;
+    overflow-y: auto;
+  }
+  .TopNav {
+    align-items: center;
+  }
+  .MovieList {
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    justify-content: center;
+  }
+  .MovieList_Movie {
+    width: 180px;
+    height: fit-content;
+  }
+  .bottomsendert {
+    justify-content: center;
+  }
+  .MovieExtraInfo {
+    display: none;
+  }
+  .playbuttonholder {
+    width: 60%;
+    padding: 0px 5px;
+  }
+  .playbutton {
+    width: 100%;
+    border-radius: 10%;
+  }
+  .PageSwapbt {
+    margin: 0px 15px !important;
+  }
+  .PageSwapbt_PageSwapbtns_back_PageSwapbtn {
+    width: fit-content;
+    padding: 5px;
+  }
+}
+@media (max-width: 768px) {
+  .genrelistcontainer {
+    width: 20% !important;
+    overflow-y: auto;
+  }
+  .TopNav {
+    align-items: center;
+  }
+  .MovieList {
+    grid-template-columns: repeat(auto-fill, minmax(350px, 2fr)) !important;
+    justify-content: center;
+  }
+  .MovieList_Movie {
+    width: 350px !important;
+    height: fit-content;
+  }
+  .bottomsendert {
+    justify-content: center;
+  }
+  .MovieExtraInfo {
+    display: none;
+  }
+  .playbuttonholder {
+    width: 90%;
+    padding: 0px 5px;
+  }
+  .playbutton {
+    width: 100%;
+    border-radius: 10%;
+  }
+  .PageSwapbt {
+    margin: 0px 15px !important;
+  }
+  .PageSwapbt_PageSwapbtns_back_PageSwapbtn {
+    width: fit-content;
+    padding: 5px;
+  }
+}
