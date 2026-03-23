@@ -1,62 +1,142 @@
 <!doctype html>
-<html>
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="keyword" content="Movies, Free Movie, Watch Movies Free" />
-    <meta name="viewport" content="widt=device-width, initial-scale=1.0" />
-    <meta name="author" content="Jane Doe" />
-    <title>Chops Streaming</title>
-    <link rel="stylesheet" href="ind.css" />
-    <script src="main.js" defer></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>New TV</title>
+    <link rel="stylesheet" href="newtv.css" />
+    <script src="newtv.js" defer></script>
   </head>
   <body>
-    <header class="NavHolder">
-      <nav class="TopNav">
-        <div class="TopNav_Title">
-          <a href="index.html">Chops Streaming</a>
-        </div>
-
-        <div class="TopNav_btns">
-          <a class="TopNav_btn" href="index.html">Home</a>
-          <a class="TopNav_btn" href="movies.html">Movies</a>
-          <a class="TopNav_btn" href="tv.html">TV Shows</a>
-          <a class="TopNav_btn" href="https://www.themoviedb.org/?language=en-US">Api</a>
-        </div>
-      </nav>
-    </header>
-
-    <section class="Thumbnails">
-      <div class="Thumbnail">
-        <img
-          src="https://vidsrc.mov/embed/movie/tt17048514"
-          alt="Movie Thumbnail"
-        />
-        <h3>Movie Title 1</h3>
-        <h2>Mark Grayson is a normal teenager except for the fact that his father is the most powerful superhero on the planet. Shortly after his seventeenth birthday, Mark begins to develop powers of his own and enters into his father’s tutelage.</h3>
-      </div>
-    </section>
-    <section class="Hero">
-      <div class="Left_Panel">
-        <h1>Watch Free Movies</h1>
-        <p>
-          Your one-stop destination for free movies. Explore our vast collection
-          WOHOO
-        </p>
-        <a href="movies.html" class="Hero_btn">Explore Now</a>
-      </div>
-
-      <div class="Right_Text">
-        <h1>Watch Free TV Shows</h1>
-        <p>
-          Your one-stop destination for free TV shows. Explore our vast
-          collection WOHOO
-        </p>
-        <a href="tv.html" class="Hero_btn">Explore Now</a>
-      </div>
+    <section class="Navigation">
+      <header class="TopNavHolder"></header>
     </section>
 
-    <footer>
-      <p>&copy; 2026 Chops Streaming. All rights reserved.</p>
+    <section class="Navigation KeepUp">
+      <header class="TopNavHolder">
+        <nav class="TopNav">
+          <div class="Logo">
+            <img src="Lgoo.png" alt="Logo" class="Logoimg" />
+          </div>
+
+          <div class="PageSwapbt" style="margin-right: 10px">
+            <div class="PageSwapbt_PageSwapbtns">
+              <div class="PageSwapbt_PageSwapbtns_back">
+                <a
+                  class="PageSwapbt_PageSwapbtns_back_PageSwapbtn active"
+                  href="index.html"
+                  >Home</a
+                >
+                <a
+                  class="PageSwapbt_PageSwapbtns_back_PageSwapbtn"
+                  href="newMovie.html"
+                  >Movies</a
+                >
+                <a
+                  class="PageSwapbt_PageSwapbtns_back_PageSwapbtn"
+                  href="newTvshow.html"
+                  >TV Shows</a
+                >
+              </div>
+            </div>
+          </div>
+        </nav>
+      </header>
+    </section>
+
+    <section class="searchmenuSection Hidden">
+      <div class="searchmenubackground">
+        <div class="searchmenu">
+          <div class="SearchHolder">
+            <div class="searchmenu_title">
+              <h1>Search for Movies</h1>
+            </div>
+            <button class="searchmenu_title_closebtn">
+              <img
+                src="https://cdn-icons-png.flaticon.com/128/1828/1828778.png"
+                alt="Close"
+                class="Closeimg"
+              />
+            </button>
+          </div>
+
+          <div class="searchmenu_input">
+            <input type="text" placeholder="Search..." />
+            <button>
+              <img
+                src="https://cdn-icons-png.flaticon.com/128/151/151773.png"
+                alt="Search"
+                class="Searchimg"
+              />
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="MoviePreviewSection">
+      <div class="MoviePreviewSection_MoviePreview">
+        <div class="MoviePreviewSection_MoviePreview_Poster">
+          <div class="MoviePreviewSection_MoviePreview_Poster_details">
+            <h2>Invincible</h2>
+            <p class="overview">
+              Mark Grayson is a teenager who discovers he has superpowers and
+              becomes a hero.
+            </p>
+            <p class="genre">Genre: Action, Adventure</p>
+            <p class="rating">Rating: 9.5/10</p>
+          </div>
+          <div class="imgholder">
+            <img
+              src="https://image.tmdb.org/t/p/original/dfmPbyeZZSz3bekeESvMJaH91gS.jpg"
+              alt="Movie Poster"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="Footer">
+      <div class="footer">
+        <div class="footer_row">
+          <a class="footer_row_link" href="#"
+            ><img
+              src="https://cdn-icons-png.flaticon.com/128/1384/1384031.png"
+              alt="Facebook"
+          /></a>
+          <a class="footer_row_link" href="#"
+            ><img
+              src="https://cdn-icons-png.flaticon.com/128/1384/1384032.png"
+              alt="Instagram"
+          /></a>
+          <a class="footer_row_link" href="#"
+            ><img
+              src="https://cdn-icons-png.flaticon.com/128/1384/1384033.png"
+              alt="YouTube"
+          /></a>
+          <a class="footer_row_link" href="#"
+            ><img
+              src="https://cdn-icons-png.flaticon.com/128/1384/1384034.png"
+              alt="Twitter"
+          /></a>
+        </div>
+
+        <div class="footer_row" style="padding-top: 5px">
+          <ul class="footer_row_lists">
+            <li class="footer_row_list_item"><a href="#">Contact us</a></li>
+            <li class="footer_row_list_item"><a href="#">Our Services</a></li>
+            <li class="footer_row_list_item"><a href="#">Privacy Policy</a></li>
+            <li class="footer_row_list_item">
+              <a href="#">Terms & Conditions</a>
+            </li>
+            <li class="footer_row_list_item"><a href="#">Career</a></li>
+          </ul>
+        </div>
+
+        <div class="footer_row">
+          CHOPPER Copyright © 2026 Inferno - All rights reserved
+        </div>
+      </div>
     </footer>
   </body>
 </html>

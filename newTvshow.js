@@ -1,0 +1,364 @@
+let TopMenuButtons = document.querySelectorAll(
+  ".PageSwapbt_PageSwapbtns_back_PageSwapbtn",
+);
+const VideoPlayerSection = document.querySelector(".VideoPlayerSection");
+const VideoplayerVid = document.querySelector(
+  ".VideoPlayerDiv_MainSection_VideoHolder_Video",
+);
+const VideoPlayerExitbtn = document.querySelector(".VideoPlayerDiv_Closebtn");
+const VideoPlayerTitle = document.querySelector(
+  ".VideoPlayerDiv_BottomSection_MovieTitle label",
+);
+const VideoPlayerOverview = document.querySelector(
+  ".VideoPlayerDiv_BottomSection_Overview label",
+);
+const VideoPlayerReleaseDate = document.querySelector(
+  ".VideoPlayerDiv_BottomSection_Seperator_ReleaseDate",
+);
+const VideoPlayerPopularity = document.querySelector(
+  ".VideoPlayerDiv_BottomSection_Seperator_Popularity",
+);
+const VideoPlayerVoteAverage = document.querySelector(
+  ".VideoPlayerDiv_BottomSection_Seperator_VoteAverage",
+);
+const SearchMenuSection = document.querySelector(".searchmenuSection");
+const SearchMenu = document.querySelector(".searchmenu");
+const searchMenuBackground = document.querySelector(".searchmenubackground");
+const SearchButton = document.querySelector(".search");
+const SearchMenuCloseButton = document.querySelector(
+  ".searchmenu_title_closebtn",
+);
+const SearchMenuInput = document.querySelector(".searchmenu_input");
+const APIKEY = "d8f1a9c985f12819bb82378a65008c32";
+let page = 1;
+function clearTopMenuactivebutton() {
+  let activebutton = document.querySelector(".active");
+  activebutton.classList.toggle("active");
+}
+
+function SetTopMenuactivebutton(button) {
+  button.classList.toggle("active");
+}
+function NextPage() {
+  if (page < MaxPages) {
+    page++;
+  }
+}
+
+function BackPage() {
+  if (page > 1) {
+    page--;
+  }
+}
+function ShowSearchMenuSection() {
+  SearchMenuSection.classList.toggle("Hidden");
+  LoadPopularMovies();
+}
+
+SearchButton.addEventListener("click", () => {
+  ShowSearchMenuSection();
+});
+
+SearchMenuCloseButton.addEventListener("click", () => {
+  ShowSearchMenuSection();
+});
+let MaxPages = 0;
+const MovieList = document.querySelector(".MovieList");
+const AllFullMovieData = [];
+async function LoadPopularMovies() {
+  const APIFETCH = await fetch(
+    `https://api.themoviedb.org/3/tv/popular?api_key=${APIKEY}&page=${page}`,
+  );
+  const APIDATA = await APIFETCH.json();
+  const Movies = APIDATA.results;
+  Movies.forEach((movie) => {
+    console.log(movie);
+    const FullMovieData = {
+      MovieTitle: movie.name || movie.original_title,
+      MovieId: movie.id,
+      MovieOverview: movie.overview,
+      MovieVoteAverage: movie.vote_average,
+      MoviePopularity: movie.popularity,
+      MoviePosterPath: movie.poster_path,
+      Movierelease_date: movie.first_air_date,
+      MovieLanguage: movie.original_language,
+      MovieCountry: movie.origin_country[0],
+      MovieImage: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
+    };
+    AllFullMovieData.push(FullMovieData);
+    MaxPages = APIDATA.total_pages;
+  });
+}
+
+const AprovedQuerys = [];
+async function LoadSearchedMovies() {
+  MovieList.innerHTML = "";
+  AllFullMovieData.splice(0, AllFullMovieData.length);
+
+  const SearchValue = document.querySelector(".searchmenu_input input");
+  if (SearchValue.value.trim() !== "") {
+    const APIFETCH = await fetch(
+      `https://api.themoviedb.org/3/search/tv?api_key=${APIKEY}&query=${encodeURIComponent(SearchValue.value.trim())}`,
+    );
+    const APIDATA = await APIFETCH.json();
+    const Movies = APIDATA.results;
+    MaxPages = APIDATA.total_pages;
+
+    Movies.forEach((movie) => {
+      const movieExists = AllFullMovieData.some(
+        (fullmovie) => fullmovie.MovieId === movie.id,
+      );
+
+      if (
+        !movieExists &&
+        movie.name !== undefined &&
+        movie.poster_path !== null &&
+        movie.poster_path !==
+          `https://image.tmdb.org/t/p/w500/hfniiftuGyPDlZyM2RxjoVGioel.jpg`
+      ) {
+        const FullMovieData = {
+          MovieTitle: movie.name || movie.original_title,
+          MovieId: movie.id,
+          MovieOverview: movie.overview,
+          MovieVoteAverage: movie.vote_average,
+          MoviePopularity: movie.popularity,
+          MoviePosterPath: movie.poster_path,
+          Movierelease_date: movie.release_date,
+          MovieImage: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
+        };
+        AllFullMovieData.push(FullMovieData);
+      }
+    });
+  }
+  LoadMoviesToList();
+}
+function RatingToStars(rating) {
+  const Fullstars = Math.floor(rating / 2);
+  const halfstars = rating % 2 >= 1 ? 1 : 0;
+  const emptystars = 5 - Fullstars - halfstars;
+  return "★".repeat(Fullstars) + "½".repeat(halfstars) + "☆".repeat(emptystars);
+}
+
+function LoadMoviesToList() {
+  AllFullMovieData.forEach((movie, index) => {
+    const MovieCard = document.createElement("div");
+    MovieCard.classList.add("MovieList_Movie");
+    MovieCard.classList.add("BHidden");
+    MovieCard.innerHTML = `
+      <div class="MoviePosterContainer">
+        <img src="${movie.MovieImage}"/>
+      </div>
+      <div class="bottomsender">
+        <div class="MovieInfo">
+          <h3 class="MovieTitle">${movie.MovieTitle}</h3>
+          <div class="bottomsendertHolder">
+<div class="bottomsendert">
+            <div class="MovieExtraInfo">
+              <p class="MovieGenre">Views:<br>${Math.round(movie.MoviePopularity)}</p>
+              <p class="MovieGenre">Rating:<br>${RatingToStars(movie.MovieVoteAverage)} ${Math.round(movie.MovieVoteAverage * 10) / 10}</p>
+            </div>
+                    <div class="playbuttonholder">
+          <button class="playbutton">
+            Play
+          </button>
+        </div>
+          </div>  
+        </div>
+      </div>`;
+    MovieList.appendChild(MovieCard);
+    const playbutton = MovieCard.querySelector(".playbutton");
+    playbutton.addEventListener("click", () => {
+      LoadVideoPlayer(movie.MovieId);
+    });
+    setTimeout(() => {
+      MovieCard.classList.remove("BHidden");
+    }, index * 50);
+  });
+}
+
+async function LoadVideoPlayer(movieId) {
+  const selectedMovie = AllFullMovieData.find(
+    (movie) => movie.MovieId === movieId,
+  );
+  if (!selectedMovie) {
+    console.error("Movie not found with ID:", movieId);
+    return;
+  }
+  console.log("Selected movie for video player:", selectedMovie);
+  VideoPlayerSection.classList.toggle("Hidden");
+  VideoPlayerTitle.textContent = selectedMovie.MovieTitle;
+  VideoPlayerOverview.textContent = selectedMovie.MovieOverview;
+  VideoPlayerReleaseDate.textContent = `Release Date: ${selectedMovie.Movierelease_date}`;
+  VideoPlayerPopularity.textContent = `MovieLanguage: ${selectedMovie.MovieLanguage.toUpperCase()} | Country: ${selectedMovie.MovieCountry}`;
+  VideoPlayerVoteAverage.textContent = `Rating: ${RatingToStars(selectedMovie.MovieVoteAverage)}`;
+  VideoplayerVid.src = `https://vidsrc.mov/embed/tv/${selectedMovie.MovieId}`;
+  VideoPlayerVoteAverage.style = "color: gold; font-size: 18px;";
+  VideoPlayerPopularity.style = "color: cyan; font-size: 18px;";
+  VideoPlayerReleaseDate.style = "color: lightgreen; font-size: 18px;";
+
+  LoopTvShowSeasons(selectedMovie.MovieId);
+}
+VideoPlayerExitbtn.addEventListener("click", () => {
+  VideoPlayerSection.classList.toggle("Hidden");
+  VideoplayerVid.src = "";
+  window.location.href = window.location.href;
+});
+
+let seasonCount;
+let countedalready = [];
+
+const allseasons = [];
+let countedepisodes = [];
+let countComplete = false;
+
+const gHolder = document.querySelector(
+  ".ViddeoPlayerDiv_MainSection_EpisdoeListHolder_EpisodeList",
+);
+
+async function LoopTvShowSeasons(tvshowidD) {
+  const APIFETCH = await fetch(
+    `https://api.themoviedb.org/3/tv/${tvshowidD}?api_key=${APIKEY}`,
+  );
+  const APIDATA = await APIFETCH.json();
+  seasonCount = APIDATA.seasons.length;
+  allseasons.splice(0, allseasons.length);
+  for (let i = 1; i <= seasonCount; i++) {
+    if (i === seasonCount) {
+      countComplete = true;
+      countedalready.push(i);
+      countComplete = true;
+      console.log("All seasons loaded:", allseasons);
+      await LoadTvShowSeasons(tvshowidD, i);
+      break;
+    }
+    if (!countedalready.includes(i)) {
+      await LoadTvShowSeasons(tvshowidD, i);
+      countedalready.push(i);
+    }
+  }
+  countComplete = true;
+}
+
+async function LoadTvShowSeasons(tvshowidD, seasonNumber) {
+  const APIFETCH = await fetch(
+    `https://api.themoviedb.org/3/tv/${tvshowidD}/season/${seasonNumber}?api_key=${APIKEY}`,
+  );
+  const season = await APIFETCH.json();
+  if (
+    allseasons.length >= seasonCount + 1 ||
+    season.season_number === undefined ||
+    season.episodes === undefined ||
+    season.episodes.length < 1
+  ) {
+    console.log(
+      "Season data incomplete or all seasons loaded, skipping season:",
+      seasonNumber,
+    );
+    seasonCount--;
+    if (seasonNumber > 0) {
+      countComplete = true;
+      const seasondata = {
+        seasonNumber: season.season_number,
+        episodes: season.episodes,
+      };
+
+      allseasons.push(seasondata);
+    }
+    if (countComplete === true) {
+      console.log(countComplete, seasonNumber);
+      LoadTvShowEpisodeList(tvshowidD);
+    }
+    console.log(allseasons);
+    return;
+  }
+  console.log(`Loaded season ${seasonNumber} for TV show ID ${tvshowidD}`);
+  //console.log(seasonNumber, " ", season);
+  const seasondata = {
+    seasonNumber: season.season_number,
+    episodes: season.episodes,
+  };
+  allseasons.push(seasondata);
+  console.log(countComplete, "  ", allseasons.length, "  ", seasonCount);
+}
+
+function Removeactiveepisodes() {
+  const activeepisodes = document.querySelectorAll(".episodeactive");
+  activeepisodes.forEach((episode) => {
+    episode.classList.toggle("episodeactive");
+  });
+}
+function LoadTvShowEpisodeList(tvshowidD) {
+  const allgls = document.querySelectorAll(
+    "ViddeoPlayerDiv_MainSection_EpisdoeListHolder_EpisodeList_SeasonHolder",
+  );
+  [...allgls].forEach((g) => {
+    g.remove();
+  });
+  console.log("Loading episode list for all seasons:", allseasons);
+  try {
+    allseasons.forEach((season) => {
+      let seasonNumber = season.seasonNumber;
+      let episodes = season.episodes;
+      console.log(seasonNumber, "  PART 2 ", season);
+      if (
+        episodes.length === 0 ||
+        episodes === undefined ||
+        episodes === null
+      ) {
+        return;
+      }
+      const seasonContainer = document.createElement("div");
+      seasonContainer.classList.add(
+        "ViddeoPlayerDiv_MainSection_EpisdoeListHolder_EpisodeList_SeasonHolder",
+      );
+
+      seasonContainer.innerHTML = `<h3>Season ${seasonNumber}</h3>`;
+
+      episodes.forEach((episode) => {
+        const episodeContainer = document.createElement("div");
+        episodeContainer.classList.add("episodeactive");
+        episodeContainer.classList.toggle("episodeactive");
+        episodeContainer.classList.add(
+          "ViddeoPlayerDiv_MainSection_EpisdoeListHolder_EpisodeList_SeasonHolder_Episode",
+        );
+        episodeContainer.innerHTML = `
+        <p class="EpisodeTitle">Episode ${episode.episode_number}: ${episode.name}</p>
+        <p class="EpisodeOverview">${episode.overview}</p>
+      `;
+        seasonContainer.appendChild(episodeContainer);
+        episodeContainer.addEventListener("click", () => {
+          VideoplayerVid.src = `https://vidsrc.mov/embed/tv/${tvshowidD}/${seasonNumber}/${episode.episode_number}`;
+
+          Removeactiveepisodes();
+          episodeContainer.classList.toggle("episodeactive");
+        });
+
+        gHolder.appendChild(seasonContainer);
+      });
+    });
+  } catch (error) {
+    console.error("Error loading episode list:", error);
+  }
+}
+const countedseasonnumbers = [];
+
+async function LoadSeasons(tvshowidD, seasonNumber) {
+  const APIFETCH = await fetch(
+    `https://api.themoviedb.org/3/tv/${tvshowidD}/season/${seasonNumber}?api_key=${APIKEY}`,
+  );
+  const season = await APIFETCH.json();
+}
+
+SearchMenuInput.addEventListener("input", () => {
+  LoadSearchedMovies();
+  LoadMoviesToList();
+});
+
+async function Init() {
+  await LoadPopularMovies();
+  LoadMoviesToList();
+}
+
+window.onload = () => {
+  Init();
+};

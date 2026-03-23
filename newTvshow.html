@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="newTvshow.css" />
+    <script src="newTvshow.js" defer></script>
+    <title>Movie App</title>
+  </head>
+  <body>
+    <section class="Navigation">
+      <header class="TopNavHolder"></header>
+    </section>
+
+    <section class="Navigation KeepUp">
+      <header class="TopNavHolder">
+        <nav class="TopNav">
+          <div class="Logo">
+            <img src="Lgoo.png" alt="Logo" class="Logoimg" />
+          </div>
+
+          <div class="PageSwapbt"style="margin-right: 10px">
+            <div class="PageSwapbt_PageSwapbtns">
+              <div class="PageSwapbt_PageSwapbtns_back">
+                <a
+                  class="PageSwapbt_PageSwapbtns_back_PageSwapbtn"
+                  href="index.html"
+                  >Home</a
+                >
+                <a
+                  class="PageSwapbt_PageSwapbtns_back_PageSwapbtn"
+                  href="newMovie.html"
+                  >Movies</a
+                >
+                <a
+                  class="PageSwapbt_PageSwapbtns_back_PageSwapbtn active"
+                  href="newTvshow.html"
+                  >TV Shows</a
+                >
+              </div>
+            </div>
+
+            <div class="PageSwapbt_SearchBar">
+              <button
+                class="PageSwapbt_PageSwapbtns_back_PageSwapbtn search"
+              >
+                <img
+                  src="https://cdn-icons-png.flaticon.com/128/151/151773.png"
+                  alt="Search"
+                  class="Searchimg"
+                />
+              </button>
+            </div>
+          </div>
+        </nav>
+      </header>
+    </section>
+
+    <section class="MainSection">
+      <div class="MovieListContainer">
+        <div class="MovieList">
+          <!-- Movie cards will be dynamically added here -->
+
+      </div>
+    </section>
+
+
+    
+    <section class="searchmenuSection Hidden">
+      <div class="searchmenubackground">
+        <div class="searchmenu">
+          <div class="SearchHolder">
+            <div class="searchmenu_title">
+              <h1>Search for Movies</h1>
+            </div>
+            <button class="searchmenu_title_closebtn">
+              <img
+                src="https://cdn-icons-png.flaticon.com/128/1828/1828778.png"
+                alt="Close"
+                class="Closeimg"
+              />
+            </button>
+          </div>
+
+          <div class="searchmenu_input">
+            <input type="text" placeholder="Search..." />
+            <button>
+              <img
+                src="https://cdn-icons-png.flaticon.com/128/151/151773.png"
+                alt="Search"
+                class="Searchimg"
+              />
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="VideoPlayerSection Hidden">
+      <div class="VideoPlayerDiv">
+        <div class="VideoPlayerDiv_Closebtn">X</div>
+        <div class="ViddeoPlayerDiv_MainSection">
+            <div class="ViddeoPlayerDiv_MainSection_EpisdoeListHolder">
+                <div class="ViddeoPlayerDiv_MainSection_EpisdoeListHolder_EpisodeList">
+                    
+                </div>
+            </div>
+          <div class="ViddeoPlayerDiv_MainSection_VideoHolder">
+            
+            <iframe src="" class="VideoPlayerDiv_MainSection_VideoHolder_Video">
+            </iframe>
+          </div>
+        </div>
+        <div class="VideoPlayerDiv_BottomSection">
+          <div class="VideoPlayerDiv_BottomSection_MovieTitle"><label>Movie Title</label></div>
+            <div class="VideoPlayerDiv_BottomSection_Overview"><label>Movie Overview</label></div>
+            <div class="StatsLabel"><label class="Stats">Stats</label></div>
+            <div class="VideoPlayerDiv_BottomSection_Seperator">
+              <div class="VideoPlayerDiv_BottomSection_Seperator_Popularity">gfgfdg</div>
+              <div class="VideoPlayerDiv_BottomSection_Seperator_VoteAverage">hgfgfhgfh</div>
+              <div class="VideoPlayerDiv_BottomSection_Seperator_ReleaseDate">hghgf</div>
+            </div>
+        </div>
+        
+      </div>
+    </section>
+    </body>
+</html>
