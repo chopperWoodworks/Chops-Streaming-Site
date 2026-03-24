@@ -411,7 +411,7 @@ async function LoadVideoPlayer(movieId) {
   VideoPlayerTitle.textContent = selectedMovie.MovieTitle;
   VideoPlayerOverview.textContent = selectedMovie.MovieOverview;
   VideoPlayerReleaseDate.textContent = `Release Date: ${selectedMovie.Movierelease_date}`;
-  VideoPlayerPopularity.textContent = `MovieLanguage: ${selectedMovie.MovieLanguage.toUpperCase()} | Country: ${selectedMovie.MovieCountry}`;
+  VideoPlayerPopularity.textContent = `MovieLanguage: ${selectedMovie.MovieLanguage} | Country: ${selectedMovie.MovieCountry}`;
   VideoPlayerVoteAverage.textContent = `Rating: ${RatingToStars(selectedMovie.MovieVoteAverage)}`;
   VideoplayerVid.src = `https://vidsrc.mov/embed/movie/${selectedMovie.MovieId}`;
   VideoPlayerVoteAverage.style = "color: gold; font-size: 18px;";
