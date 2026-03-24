@@ -179,7 +179,7 @@ async function LoadPopularMovies() {
       MovieVoteAverage: movie.vote_average,
       MoviePopularity: movie.popularity,
       MoviePosterPath: movie.poster_path,
-      Movierelease_date: movie.release_date,
+      Movierelease_date: movie.first_air_date || movie.release_date,
       MovieLanguage: movie.original_language,
       MovieCountry: movie.origin_country,
       MovieImage: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
@@ -223,7 +223,7 @@ async function LoadSearchedMovies() {
           MovieVoteAverage: movie.vote_average,
           MoviePopularity: movie.popularity,
           MoviePosterPath: movie.poster_path,
-          Movierelease_date: movie.release_date,
+          Movierelease_date: movie.first_air_date || movie.release_date,
           MovieImage: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
         };
         AllFullMovieData.push(FullMovieData);

@@ -93,12 +93,12 @@ const MovieList = document.querySelector(".MovieList");
 let AllFullMovieData = [];
 async function LoadPopularMovies() {
   const APIFETCH = await fetch(
-    `https://api.themoviedb.org/3/movie/popular?api_key=${APIKEY}&page=${page}`,
+    `https://api.themoviedb.org/3/tv/popular?api_key=${APIKEY}&page=${page}`,
   );
   const APIDATA = await APIFETCH.json();
 
   const APIFETCHT = await fetch(
-    `https://api.themoviedb.org/3/movie/popular?api_key=${APIKEY}&page=${page + 1}`,
+    `https://api.themoviedb.org/3/tv/popular?api_key=${APIKEY}&page=${page + 1}`,
   );
   const APIDATAT = await APIFETCHT.json();
 
@@ -112,7 +112,7 @@ async function LoadPopularMovies() {
       MovieVoteAverage: movie.vote_average,
       MoviePopularity: movie.popularity,
       MoviePosterPath: movie.poster_path,
-      Movierelease_date: movie.release_date,
+      Movierelease_date: movie.first_air_date || movie.release_date,
       MovieLanguage: movie.original_language,
       MovieCountry: movie.origin_country,
       MovieImage: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
@@ -140,7 +140,7 @@ async function LoadPopularMovies() {
       MovieVoteAverage: movie.vote_average,
       MoviePopularity: movie.popularity,
       MoviePosterPath: movie.poster_path,
-      Movierelease_date: movie.release_date,
+      Movierelease_date: movie.first_air_date || movie.release_date,
       MovieLanguage: movie.original_language,
       MovieCountry: movie.origin_country,
       MovieImage: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
@@ -318,6 +318,7 @@ function RatingToStars(rating) {
   return "★".repeat(Fullstars) + "½".repeat(halfstars) + "☆".repeat(emptystars);
 }
 function convertdate(date) {
+  if (!date) return 2025;
   const seperated = date.split("-");
   const year = seperated[0];
   return year;
