@@ -88,13 +88,20 @@ SearchMenuCloseButton.addEventListener("click", () => {
   ShowSearchMenuSection();
 });
 let MaxPages = 0;
+let MaxCards = 0;
 const MovieList = document.querySelector(".MovieList");
 let AllFullMovieData = [];
 async function LoadPopularMovies() {
   const APIFETCH = await fetch(
-    `https://api.themoviedb.org/3/tv/popular?api_key=${APIKEY}&page=${page}`,
+    `https://api.themoviedb.org/3/movie/popular?api_key=${APIKEY}&page=${page}`,
   );
   const APIDATA = await APIFETCH.json();
+
+  const APIFETCHT = await fetch(
+    `https://api.themoviedb.org/3/movie/popular?api_key=${APIKEY}&page=${page + 1}`,
+  );
+  const APIDATAT = await APIFETCHT.json();
+
   AllFullMovieData = [];
   const Movies = APIDATA.results;
   Movies.forEach((movie) => {
@@ -105,13 +112,42 @@ async function LoadPopularMovies() {
       MovieVoteAverage: movie.vote_average,
       MoviePopularity: movie.popularity,
       MoviePosterPath: movie.poster_path,
-      Movierelease_date: movie.first_air_date,
+      Movierelease_date: movie.release_date,
       MovieLanguage: movie.original_language,
-      MovieCountry: movie.origin_country[0],
+      MovieCountry: movie.origin_country,
       MovieImage: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
     };
     AllFullMovieData.push(FullMovieData);
     MaxPages = APIDATA.total_pages;
+  });
+
+  const MoviesT = APIDATAT.results;
+  const viewportWidth = window.innerWidth;
+  MoviesT.forEach((movie) => {
+    if (viewportWidth == 1920) {
+      MaxCards = 35;
+    }
+    if (viewportWidth == 1440) {
+      MaxCards = 34;
+    }
+    if (viewportWidth <= 1024) {
+      MaxCards = 40;
+    }
+    const FullMovieData = {
+      MovieTitle: movie.name || movie.original_title,
+      MovieId: movie.id,
+      MovieOverview: movie.overview,
+      MovieVoteAverage: movie.vote_average,
+      MoviePopularity: movie.popularity,
+      MoviePosterPath: movie.poster_path,
+      Movierelease_date: movie.release_date,
+      MovieLanguage: movie.original_language,
+      MovieCountry: movie.origin_country,
+      MovieImage: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
+    };
+    AllFullMovieData.push(FullMovieData);
+    MaxPages += APIDATAT.total_pages;
+    console.log(AllFullMovieData);
   });
 }
 nextbtn.addEventListener("click", () => {
@@ -195,6 +231,7 @@ async function addtogenrelist() {
   TVGenres.forEach((genre) => {
     const genrediv = document.createElement("div");
     genrediv.classList.add("genrelistcontainer_List_item");
+    genrediv.classList.add("BHidden");
     genrediv.textContent = genre.GenreName;
     acgenreList.appendChild(genrediv);
     genrediv.addEventListener("click", () => {
@@ -216,7 +253,7 @@ async function loadGenre(genrename, genreid) {
   const data = await res.json();
   console.log(data);
   AllFullMovieData.splice(0, AllFullMovieData.length);
-  data.results.forEach((movie) => {
+  data.results.forEach((i, movie) => {
     if (movie.poster_path === null) return;
     const FullMovieData = {
       MovieTitle: movie.name || movie.original_title,
@@ -235,18 +272,43 @@ async function loadGenre(genrename, genreid) {
   LoadMoviesToList();
   genreenabled = true;
 }
-
+let opened = false;
+let timeouts = [];
 function Showgenrelist() {
   const viewportWidth = window.innerWidth;
   if (viewportWidth == 768) {
     genrelist.classList.remove("side");
     genrelist.classList.toggle("sside");
+    opened = !opened;
+    console.log(opened);
   } else if (viewportWidth <= 425) {
     genrelist.classList.remove("side");
     genrelist.classList.add(".genrelistcontainerT");
     genrelist.classList.toggle("bside");
+    opened = !opened;
+    console.log(opened);
   } else {
     genrelist.classList.toggle("side");
+    opened = !opened;
+    console.log(opened);
+  }
+  if (opened === true) {
+    timeouts = [];
+    [...document.querySelectorAll(".genrelistcontainer_List_item")].forEach(
+      (genrelistiem, i) => {
+        const yea = setTimeout(() => {
+          genrelistiem.classList.remove("BHidden");
+        }, i * 75);
+        timeouts.push(yea);
+      },
+    );
+  } else {
+    [...timeouts].forEach((timeout) => clearTimeout(timeout));
+    [...document.querySelectorAll(".genrelistcontainer_List_item")].forEach(
+      (genrelistiem, i) => {
+        genrelistiem.classList.add("BHidden");
+      },
+    );
   }
 }
 function RatingToStars(rating) {
@@ -262,6 +324,9 @@ function convertdate(date) {
 }
 function LoadMoviesToList() {
   AllFullMovieData.forEach((movie, index) => {
+    if (index >= MaxCards) {
+      return;
+    }
     const MovieCard = document.createElement("div");
     MovieCard.classList.add("MovieList_Movie");
     MovieCard.classList.add("BHidden");

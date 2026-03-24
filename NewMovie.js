@@ -135,10 +135,15 @@ async function LoadPopularMovies() {
     `https://api.themoviedb.org/3/movie/popular?api_key=${APIKEY}&page=${page}`,
   );
   const APIDATA = await APIFETCH.json();
+
+  const APIFETCHT = await fetch(
+    `https://api.themoviedb.org/3/movie/popular?api_key=${APIKEY}&page=${page + 1}`,
+  );
+  const APIDATAT = await APIFETCHT.json();
+
   AllFullMovieData = [];
   const Movies = APIDATA.results;
   Movies.forEach((movie) => {
-    console.log(movie);
     const FullMovieData = {
       MovieTitle: movie.name || movie.original_title,
       MovieId: movie.id,
@@ -153,6 +158,34 @@ async function LoadPopularMovies() {
     };
     AllFullMovieData.push(FullMovieData);
     MaxPages = APIDATA.total_pages;
+  });
+
+  const MoviesT = APIDATAT.results;
+  const viewportWidth = window.innerWidth;
+  MoviesT.forEach((movie) => {
+    if (viewportWidth == 1920) {
+      MaxCards = 35;
+    }
+    if (viewportWidth == 1440) {
+      MaxCards = 34;
+    }
+    if (viewportWidth <= 1024) {
+      MaxCards = 40;
+    }
+    const FullMovieData = {
+      MovieTitle: movie.name || movie.original_title,
+      MovieId: movie.id,
+      MovieOverview: movie.overview,
+      MovieVoteAverage: movie.vote_average,
+      MoviePopularity: movie.popularity,
+      MoviePosterPath: movie.poster_path,
+      Movierelease_date: movie.release_date,
+      MovieLanguage: movie.original_language,
+      MovieCountry: movie.origin_country,
+      MovieImage: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
+    };
+    AllFullMovieData.push(FullMovieData);
+    MaxPages += APIDATAT.total_pages;
   });
 }
 
@@ -208,7 +241,6 @@ async function addtogenrelist() {
     `https://api.themoviedb.org/3/genre/tv/list?api_key=${APIKEY}`,
   );
   const jsondata = await apidata.json();
-  console.log(jsondata);
   jsondata.genres.forEach((genre) => {
     const thisgenre = {
       GenreName: genre.name,
@@ -254,7 +286,7 @@ async function loadGenre(genrename, genreid) {
     };
     AllFullMovieData.push(FullMovieData);
   });
-  console.log(AllFullMovieData);
+
   currentgen = [genreid, genrename];
   LoadMoviesToList();
   genreenabled = true;
@@ -264,21 +296,48 @@ function convertdate(date) {
   const year = seperated[0];
   return year;
 }
+let opened = false;
+let timeouts = [];
 function Showgenrelist() {
   const viewportWidth = window.innerWidth;
   if (viewportWidth == 768) {
     genrelist.classList.remove("side");
     genrelist.classList.toggle("sside");
+    opened = !opened;
   } else if (viewportWidth <= 425) {
     genrelist.classList.remove("side");
     genrelist.classList.add(".genrelistcontainerT");
     genrelist.classList.toggle("bside");
+    opened = !opened;
   } else {
     genrelist.classList.toggle("side");
+    opened = !opened;
+  }
+  if (opened === true) {
+    timeouts = [];
+    [...document.querySelectorAll(".genrelistcontainer_List_item")].forEach(
+      (genrelistiem, i) => {
+        const yea = setTimeout(() => {
+          genrelistiem.classList.remove("BHidden");
+        }, i * 75);
+        timeouts.push(yea);
+      },
+    );
+  } else {
+    [...timeouts].forEach((timeout) => clearTimeout(timeout));
+    [...document.querySelectorAll(".genrelistcontainer_List_item")].forEach(
+      (genrelistiem, i) => {
+        genrelistiem.classList.add("BHidden");
+      },
+    );
   }
 }
+
 function LoadMoviesToList() {
   AllFullMovieData.forEach((movie, index) => {
+    if (index >= MaxCards) {
+      return;
+    }
     const MovieCard = document.createElement("div");
     MovieCard.classList.add("MovieList_Movie");
     MovieCard.classList.add("BHidden");
@@ -315,7 +374,7 @@ function LoadMoviesToList() {
     });
     setTimeout(() => {
       MovieCard.classList.remove("BHidden");
-    }, index * 50);
+    }, index * 18);
   });
 }
 function changebgcolortag(tag, year) {
@@ -370,7 +429,9 @@ SearchMenuInput.addEventListener("input", () => {
 
 async function Init() {
   await LoadPopularMovies();
+  await LoadPopularMovies();
   LoadMoviesToList();
+
   const viewportWidth = window.innerWidth;
   movie = document.querySelector(".MovieList_Movie");
   if (viewportWidth == 353) {
