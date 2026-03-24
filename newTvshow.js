@@ -253,7 +253,7 @@ async function loadGenre(genrename, genreid) {
   const data = await res.json();
   console.log(data);
   AllFullMovieData.splice(0, AllFullMovieData.length);
-  data.results.forEach((i, movie) => {
+  data.results.forEach((movie, i) => {
     if (movie.poster_path === null) return;
     const FullMovieData = {
       MovieTitle: movie.name || movie.original_title,
