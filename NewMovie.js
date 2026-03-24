@@ -371,6 +371,7 @@ function LoadMoviesToList() {
     const playbutton = MovieCard.querySelector(".playbutton");
     playbutton.addEventListener("click", () => {
       LoadVideoPlayer(movie.MovieId);
+      Showgenrelist();
     });
     setTimeout(() => {
       MovieCard.classList.remove("BHidden");
