@@ -26,9 +26,23 @@ const SearchMenuSection = document.querySelector(".searchmenuSection");
 const SearchMenu = document.querySelector(".searchmenu");
 const searchMenuBackground = document.querySelector(".searchmenubackground");
 const SearchButton = document.querySelector(".search");
+const Scinput = document.querySelector(".Scinput");
 const SearchMenuCloseButton = document.querySelector(
   ".searchmenu_title_closebtn",
 );
+Scinput.addEventListener("click", () => {
+  if (SearchMenuSection.classList.contains("Hidden")) {
+    SearchMenuSection.classList.add("Hidden");
+  }
+});
+SearchButton.addEventListener("mouseenter", () => {
+  Scinput.classList.remove("Hidden");
+
+  Scinput.classList.remove("Hidden");
+});
+SearchButton.addEventListener("mouseleave", () => {
+  Scinput.classList.add("Hidden");
+});
 const SearchMenuInput = document.querySelector(".searchmenu_input");
 const APIKEY = "d8f1a9c985f12819bb82378a65008c32";
 let page = 1;
@@ -87,12 +101,23 @@ function ShowSearchMenuSection() {
 }
 
 SearchButton.addEventListener("click", () => {
-  ShowSearchMenuSection();
+  if (!Scinput.matches(":focus")) {
+    ShowSearchMenuSection();
+  }
 });
 
 SearchMenuCloseButton.addEventListener("click", () => {
-  ShowSearchMenuSection();
-  isSearching = false;
+  if (!Scinput.matches(":focus")) {
+    ShowSearchMenuSection();
+    isSearching = false;
+  }
+});
+const searchmenubackground = document.querySelector(".searchmenubackground");
+searchmenubackground.addEventListener("click", () => {
+  if (!Scinput.matches(":focus")) {
+    ShowSearchMenuSection();
+    isSearching = false;
+  }
 });
 let MaxPages = 0;
 let MaxCards = 0;
@@ -587,11 +612,14 @@ async function LoadSeasons(tvshowidD, seasonNumber) {
 
 async function InitT() {
   await LoadSearchedMovies();
-  LoadMoviesToList();
 }
+let timeout;
 SearchMenuInput.addEventListener("input", () => {
-  InitT();
-  AllFullMovieData.splice(0, AllFullMovieData.length);
+  clearTimeout(timeout);
+  timeout = setTimeout(() => {
+    InitT();
+    AllFullMovieData.splice(0, AllFullMovieData.length);
+  }, 50);
 });
 let movie = document.querySelectorAll(".MovieList_Movie");
 async function Init() {
