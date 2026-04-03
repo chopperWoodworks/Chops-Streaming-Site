@@ -66,7 +66,10 @@ function NextPage() {
     MovieList.innerHTML = "";
     LoadMoviesToList();
 
-    window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
+    window.scrollTo({
+      top: document.body.scrollHeight - document.body.scrollHeight,
+      behavior: "smooth",
+    });
   }
 }
 function NextGPage(currentgen) {
@@ -76,7 +79,10 @@ function NextGPage(currentgen) {
     loadGenre(currentgen[0], currentgen[1]);
     MovieList.innerHTML = "";
     LoadMoviesToList();
-    window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
+    window.scrollTo({
+      top: document.body.scrollHeight - document.body.scrollHeight,
+      behavior: "smooth",
+    });
   }
 }
 
@@ -403,7 +409,7 @@ function LoadMoviesToList() {
     });
     setTimeout(() => {
       MovieCard.classList.remove("BHidden");
-    }, index * 50);
+    }, index * 40);
   });
 }
 function changebgcolortag(tag, year) {
