@@ -96,7 +96,24 @@ body {
   padding: 5px;
   padding-left: 15px;
   padding-right: 15px;
-  max-width: 120px;
+  width: 104px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #c2c2c2;
+  font-weight: 1200;
+  text-decoration: none;
+}
+.PageSwapbt_PageSwapbtns_back_PageSwapbtnF {
+  border-radius: 8px;
+  background-color: transparent;
+  transition: all 0.2s ease-in-out;
+  background-color: transparent;
+  padding: 5px;
+  padding-left: 15px;
+  padding-right: 15px;
+  width: 120px;
   height: 40px;
   display: flex;
   align-items: center;
@@ -109,17 +126,43 @@ body {
   background-color: rgb(32, 32, 32);
   color: #ffffff;
 }
-
+.PageSwapbt_PageSwapbtns_back_PageSwapbtn:hover.Scinput {
+  background-color: rgb(32, 32, 32);
+  color: #a80000;
+}
 .search {
   background-color: var(--primary-color);
   border: var(--secondary-color) solid 1px;
   height: 100%;
+  width: 55px;
+  gap: 10px;
 }
 .PageSwapbt_SearchBar {
   display: flex;
   height: 50px;
+  display: flex;
+  width: fit-content !important;
 }
-
+.search:hover {
+  width: 155px;
+}
+.Scinput {
+  background-color: #303030;
+  color: #ffffff;
+  border: var(--secondary-color) solid 0px;
+  height: 100% !important;
+  width: 100% !important;
+  display: flex;
+  justify-content: center !important;
+  align-items: center !important;
+  font-size: 1rem;
+}
+.Scinput:focus,
+.Scinput:active {
+  outline: none;
+  background-color: #303030;
+  transition: all 0.4s ease-in-out;
+}
 .Searchimg {
   width: 20px;
   height: 20px;
