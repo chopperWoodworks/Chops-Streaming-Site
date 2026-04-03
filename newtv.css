@@ -5,15 +5,18 @@
   color: rgb(248, 248, 248);
   box-sizing: border-box;
   font-weight: 500;
+  user-select: none;
 }
 
 :root {
   --bg-color: #131313;
   --secondary-color: #c2c2c2;
+  --second-secondary-color: rgb(36, 36, 36);
   --primary-color: #1a1a1a;
   --accent-color: #ff0000;
   --active-color: #f3383826;
   --Supression-color: #000000;
+  --secondary-accent-color: #505050;
 }
 
 body {
@@ -93,7 +96,24 @@ body {
   padding: 5px;
   padding-left: 15px;
   padding-right: 15px;
-  max-width: 120px;
+  width: 104px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #c2c2c2;
+  font-weight: 1200;
+  text-decoration: none;
+}
+.PageSwapbt_PageSwapbtns_back_PageSwapbtnF {
+  border-radius: 8px;
+  background-color: transparent;
+  transition: all 0.2s ease-in-out;
+  background-color: transparent;
+  padding: 5px;
+  padding-left: 15px;
+  padding-right: 15px;
+  width: 120px;
   height: 40px;
   display: flex;
   align-items: center;
@@ -106,17 +126,43 @@ body {
   background-color: rgb(32, 32, 32);
   color: #ffffff;
 }
-
+.PageSwapbt_PageSwapbtns_back_PageSwapbtn:hover.Scinput {
+  background-color: rgb(32, 32, 32);
+  color: #a80000;
+}
 .search {
   background-color: var(--primary-color);
   border: var(--secondary-color) solid 1px;
   height: 100%;
+  width: 55px;
+  gap: 10px;
 }
 .PageSwapbt_SearchBar {
   display: flex;
   height: 50px;
+  display: flex;
+  width: fit-content !important;
 }
-
+.search:hover {
+  width: 155px;
+}
+.Scinput {
+  background-color: #303030;
+  color: #ffffff;
+  border: var(--secondary-color) solid 0px;
+  height: 100% !important;
+  width: 100% !important;
+  display: flex;
+  justify-content: center !important;
+  align-items: center !important;
+  font-size: 1rem;
+}
+.Scinput:focus,
+.Scinput:active {
+  outline: none;
+  background-color: #303030;
+  transition: all 0.4s ease-in-out;
+}
 .Searchimg {
   width: 20px;
   height: 20px;
@@ -142,14 +188,14 @@ body {
   align-items: center;
   width: 100vw;
   height: 100vh;
-  z-index: 3;
+  z-index: 1;
   position: fixed;
   top: 0;
   left: 0;
 }
 
 .searchmenubackground {
-  background-color: var(--Supression-color);
+  background-color: transparent;
   backdrop-filter: blur(5px);
   width: 100%;
   height: 100%;
@@ -265,119 +311,820 @@ body {
 }
 
 .Hidden {
-  display: none;
+  display: none !important;
 }
-
-.MoviePreviewSection {
+.BHidden {
+  transform: translateY(40px) !important;
+  opacity: 0 !important;
+}
+.MainSection {
   display: flex;
-  border-bottom: var(--accent-color) solid 5px;
-}
-.MoviePreviewSection_MoviePreview_Poster {
-  position: relative;
   width: 100%;
   height: 100%;
-  display: flex;
-  align-items: center;
+  background-color: var(--primary-color);
   justify-content: center;
-  transition: all 0.5s ease-in-out;
+  align-items: center;
+  padding: 10px;
+  flex-direction: column;
 }
 
-.MoviePreviewSection_MoviePreview_Poster img {
-  width: 100vw;
-  height: 100%;
-  margin: 0px;
-  padding: 0px;
-  filter: blur(4px);
-  object-fit: cover;
-  transition: all 0.5s ease-in-out;
+.MovieListContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--primary-color);
+  padding: 20px;
+  width: 100%;
+  flex-direction: column;
 }
-
-.MoviePreviewSection_MoviePreview_Poster_details {
+.nbtns {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  gap: 10px;
+}
+.Tags {
+  display: flex;
   position: absolute;
-  bottom: 0px;
-  left: 0px;
-  color: #ffffff;
-  font-size: 32px;
-  margin: 0px;
-  z-index: 2;
-  margin-bottom: 15px;
-  margin-left: 10px;
+  top: 5px;
+  width: fit-content;
+  background-color: transparent;
+  gap: 5px;
+  right: 5px;
 }
-.MoviePreviewSection_MoviePreview_Poster_details h2 {
-  margin: 0px;
-  padding: 0px;
-}
-
-.MoviePreviewSection_MoviePreview_Poster_details p {
-  margin: 2px;
-  padding: 0px;
-  font-size: 25px;
-}
-.imgholder {
+.tag {
   width: 100%;
-  height: 750px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  height: 100%;
+  background-color: #202020;
+  padding: 5px;
+  border-radius: 5px;
+  text-wrap: nowrap;
+  font-size: 0.9rem;
+  border: 1px solid var(--secondary-accent-color);
 }
-
 .KeepUp {
   position: fixed;
   display: flex;
   top: 0px;
   z-index: 4;
 }
-
-.MoviePreviewSection_MoviePreview_Poster:hover img {
-  filter: blur(0px);
-  transition: all 0.5s ease-in-out;
+.MovieList {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 5px;
+  justify-items: center;
+  align-items: center;
 }
-.footer_row {
+.bottomsender {
   display: flex;
-  gap: 20px;
   flex-direction: row;
+  width: 100%;
+  background-color: var(--second-secondary-color);
+  height: 100px;
+}
+
+.playbuttonholder {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 25%;
+  height: 100%;
+  background-color: transparent;
+}
+
+.playbutton {
+  width: 100%;
+  height: 40px;
+  padding: 10px;
+  background-color: #ff0000;
+  border-radius: 15%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #2e2e2e;
+  font-size: large;
+  transition: all 0.3s ease-in-out;
+  border: 1px solid #4e4e4e;
+}
+.pagebutton {
+  width: 100%;
+  height: 40px;
+  padding: 10px;
+  background-color: #ff0000;
+  border-radius: 15%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #ffffff;
+  font-size: large;
+  transition: all 0.3s ease-in-out;
+  border: 1px solid #4e4e4e;
+  background-image: linear-gradient(to bottom right, #fc8d4d, #ef4444, #ec4899);
+}
+.pagebutton:hover {
+  scale: 1.1;
+}
+.MovieList_Movie {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
   align-items: center;
   justify-content: center;
-  padding: 1px;
-  padding-top: 20px;
+  overflow: hidden;
+  background-color: #202020;
+  padding: 0px;
+  border-radius: 8px;
+  border: var(--secondary-accent-color) solid 1px;
+  transition: all 0.3s ease-in-out;
+  width: 250px;
+  height: 380px;
+  margin-bottom: 5px;
 }
-.footer_row .footer_row_link {
-  filter: invert(100%);
+.MovieList_Movie:hover {
+  transform: scale(1.03);
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0px 0px 10px 2px #ff0000;
+  border: var(--accent-color) solid 1px;
+}
+.MovieInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  align-items: center;
+  justify-content: start;
+  padding: 0px;
+  background-color: var(--second-secondary-color);
+  border-radius: 8px;
+  width: 100%;
+  height: 100%;
+  padding-top: 3px;
+}
+.MovieDescription {
+  margin: 0px;
+}
+.MovieGenre {
+  display: flex;
+  margin: 0px;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
+  text-wrap: wrap;
+  width: 50%;
+  color: #e08142;
+  text-shadow: 0px 0px 5px #e08142;
+}
+.MovieTitle {
+  display: flex;
+  margin: 0px;
+  text-wrap: nowrap;
+  text-align: left;
+  justify-content: start;
+  user-select: all;
+  font-size: 0.95em;
+}
+.genrelistcontainer {
+  width: 10%;
+  height: 85%;
+  display: flex;
+  background-color: var(--primary-color);
+  position: fixed;
+  top: 62%;
+  transform: translateY(-60%);
+  border: var(--secondary-accent-color) 1px solid;
+  z-index: 18;
+  border-radius: 10px;
+  padding: 10px 10px;
+  justify-content: center;
+  align-items: center;
+  right: 0.8%;
   transition: all 0.3s ease-in-out;
 }
-.footer_row_link img {
+.genrelistcontainerT {
+  width: 10%;
+  height: 85%;
+  display: flex;
+  background-color: var(--primary-color);
+  position: fixed;
+  top: 62%;
+  transform: translateY(-60%);
+  border: var(--secondary-accent-color) 1px solid;
+  z-index: 18;
+  border-radius: 10px;
+  padding: 10px 10px;
+  justify-content: center;
+  align-items: center;
+  right: 33%;
+  transition: all 0.3s ease-in-out;
+}
+.genrelistcontainer.side {
+  right: -15%;
+}
+.genrelistcontainer.sside {
+  right: -45%;
+}
+.genrelistcontainer.bside {
+  right: -180%;
+}
+.genrelistcontainer_List {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  justify-content: start;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  font-size: 18px;
+  padding: 0px;
+}
+.genrelistcontainer_List_item {
+  background-color: #202020;
+  display: flex;
+  width: 100% !important;
+  height: fit-content;
+  padding: 5px 8px;
+  border: 1px solid transparent;
+  height: 100%;
+  transition: all 0.1s ease-in-out;
+}
+.genrelistcontainer_List_item:hover {
+  background-color: #313131;
+  border: 1px solid var(--secondary-accent-color);
+  transition: all 0.1s ease-in-out;
+}
+.genrelistcontainer_List_item:active {
+  scale: 0.8;
+  transition: all 0.06s ease-in-out;
+}
+.bottomsendertHolder {
+  display: flex;
+  width: 100%;
+  height: 90%;
+}
+.bottomsendert {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  background-color: var(--second-secondary-color);
+  height: 100%;
+  gap: 5px;
+  justify-content: space-between;
+  padding-right: 5px;
+  padding-left: 5px;
+}
+.MoviePosterContainer img {
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  border-bottom: var(--secondary-accent-color) solid 1px;
+}
+.MoviePosterContainer {
+  width: 100%;
+  height: fit-content;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+.MoviePoster {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.MovieExtraInfo {
+  display: flex;
+  flex-direction: row;
+  gap: 3px;
+  justify-content: space-between;
+  width: 65%;
+}
+
+.playbutton {
+  background-color: #cf245f;
+  background-image: linear-gradient(to bottom right, #fc8d4d, #ef4444, #ec4899);
+  transition: all 0.3s ease-in-out;
+  color: #e2e2e2;
+  font-weight: bold;
+}
+
+.playbutton:hover {
+  box-shadow: none;
+  scale: 1.09;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0px 0px 10px 2px #fc8d4d;
+}
+.VideoPlayerSection {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 5;
+  background-color: #000000fd;
+  backdrop-filter: blur(5px);
+}
+.VideoPlayerDiv {
+  width: 80%;
+  height: 80%;
+  background-color: var(--primary-color);
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  border: var(--accent-color) solid 1px;
+  position: relative;
+  overflow: hidden;
+}
+.VideoPlayerDiv_Title {
+  width: 100%;
+  height: 10%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  padding-top: 5px;
+}
+.VideoPlayerDiv_Title label {
+  font-size: 45px;
+  font-weight: bold;
+  color: var(--accent-color);
+}
+.ViddeoPlayerDiv_MainSection {
+  width: 100%;
+  height: 60%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+}
+.VideoPlayerDiv_MainSection_VideoHolder_Video {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border: #000000 solid 1px;
+}
+.ViddeoPlayerDiv_MainSection_VideoHolder {
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  border: var(--accent-color) solid 1px;
+}
+.VideoPlayerDiv_BottomSection {
+  width: 100%;
+  height: 40%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 0px;
+  padding: 0px 0px;
+}
+.VideoPlayerDiv_BottomSection_Overview {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: start;
+  align-items: start;
+  padding: 10px;
+}
+.VideoPlayerDiv_BottomSection_Seperator {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 100%;
+  gap: 10px;
+  padding: 0px 10px;
+}
+
+.StatsLabel {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  padding: 5px 10px;
+  background-color: var(--second-secondary-color);
+  font-size: 1.8rem;
+  width: 100%;
+  height: 30%;
+}
+.VideoPlayerDiv_BottomSection_MovieTitle {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  padding: 5px 10px;
+  background-color: var(--second-secondary-color);
+  font-size: 2rem;
+  width: 100%;
+  height: 100%;
+}
+.VideoPlayerDiv_Closebtn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
   width: 30px;
   height: 30px;
+  background-color: transparent;
+  border: none;
+  color: #c2c2c2;
+  font-size: large;
   transition: all 0.3s ease-in-out;
-}
-.footer_row_link img:hover {
-  transform: scale(1.2);
-  transition: all 0.3s ease-in-out;
-}
-
-.footer_row_lists {
-  display: flex;
-  gap: 20px;
-  flex-direction: row;
-  align-items: center;
+  background-color: #630000;
+  border: var(--secondary-accent-color) solid 2px;
+  padding: 15px;
+  border-radius: 8px;
   justify-content: center;
-  list-style-type: none;
+  align-items: center;
+  display: flex;
+}
+.VideoPlayerDiv_Closebtn:hover {
+  background-color: #ff0000;
+  transition: all 0.3s ease-in-out;
+  color: #ffffff;
+}
+.ViddeoPlayerDiv_MainSection_EpisdoeListHolder {
+  width: 40%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.ViddeoPlayerDiv_MainSection_EpisdoeListHolder_EpisodeList {
+  width: 90%;
+  height: 90%;
+  background-color: var(--second-secondary-color);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 10px;
+  overflow-y: auto;
+  border: var(--accent-color) solid 1px;
+}
+.ViddeoPlayerDiv_MainSection_EpisdoeListHolder_EpisodeList_Episode {
+  width: 100%;
+  height: 40px;
+  background-color: var(--primary-color);
+  border-radius: 8px;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  padding: 0px 10px;
+  transition: all 0.3s ease-in-out;
+}
+.ViddeoPlayerDiv_MainSection_EpisdoeListHolder_EpisodeList_Episode:hover {
+  background-color: #3b1212;
+  color: #ffffff;
+  transition: all 0.2s ease-in-out;
+}
+.ViddeoPlayerDiv_MainSection_EpisdoeListHolder_EpisodeList_SeasonHolder {
+  width: 100%;
+  height: fit-content;
+  background-color: #1d1d1d;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
+  padding: 10px 10px;
+  gap: 15px;
+  border: var(--secondary-accent-color) solid 2px;
+}
+.ViddeoPlayerDiv_MainSection_EpisdoeListHolder_EpisodeList_SeasonHolder h3 {
+  margin: 0px;
+  color: var(--accent-color);
+  border-bottom: 1px solid var(--accent-color);
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  width: 100%;
+  padding-bottom: 5px;
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+.ViddeoPlayerDiv_MainSection_EpisdoeListHolder_EpisodeList_SeasonHolder_Episode {
+  margin: 0px;
+  color: var(--secondary-accent-color);
+  border: 1px solid transparent;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  width: 100%;
+  flex-direction: column;
+  padding: 5px 10px;
+  transition: all 0.2s ease-in-out;
+}
+.ViddeoPlayerDiv_MainSection_EpisdoeListHolder_EpisodeList_SeasonHolder_Episode:hover {
+  background-color: #3b1212;
+  color: #ffffff;
+  transition: all 0.2s ease-in-out;
+  border: 1px solid var(--secondary-accent-color);
+}
+.EpisodeTitle {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  width: 100%;
+  font-weight: bold;
+  margin-bottom: 0px;
+  padding-bottom: 5px;
+  border-bottom: var(--secondary-accent-color) solid 2px;
 }
 
-.footer_row_list_item a {
-  color: #881212;
-  font-size: 20px;
-  transition: all 0.3s ease-in-out;
+.episodeactive {
+  background-color: #6b1919;
+  color: #ffffff;
+  transition: all 0.2s ease-in-out;
+  border: 1px solid var(--secondary-accent-color);
 }
-.footer_row_list_item a:hover {
-  color: #ff0000;
-  transition: all 0.3s ease-in-out;
-  text-decoration: underline;
+@media (max-width: 600px) {
+  .Logo {
+    display: none;
+  }
+  .TopNav {
+    justify-content: center;
+    align-items: center;
+  }
+  .genrelistcontainer {
+    width: 50% !important;
+    overflow-y: auto;
+  }
 }
-.Footer {
-  padding-bottom: 35px;
+
+@media (max-width: 564px) {
+  .MovieList {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    justify-content: center;
+  }
+  .MovieList_Movie {
+    width: 150px;
+    height: fit-content;
+  }
+  .bottomsendert {
+    justify-content: center;
+  }
+  .MovieExtraInfo {
+    display: none;
+  }
+  .playbuttonholder {
+    width: 60%;
+    padding: 0px 5px;
+  }
+  .playbutton {
+    width: 100%;
+    border-radius: 10%;
+  }
+  .genrelistcontainer {
+    width: 50% !important;
+    overflow-y: auto;
+  }
 }
-.PageSwapbt_PageSwapbtns_back_PageSwapbtn img {
-  width: 35px;
-  height: 35px;
+@media (max-width: 425px) {
+  .Logo {
+    display: none;
+  }
+  .TopNav {
+    justify-content: center;
+    align-items: center;
+  }
+  .MovieList {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 0.4fr));
+    justify-content: center;
+  }
+  .MovieList_Movie {
+    width: 150px;
+    height: fit-content;
+  }
+  .bottomsendert {
+    justify-content: center;
+  }
+  .MovieExtraInfo {
+    display: none;
+  }
+  .playbuttonholder {
+    width: 60%;
+    padding: 0px 5px;
+  }
+  .playbutton {
+    width: 100%;
+    border-radius: 10%;
+  }
+  .PageSwapbt {
+    margin: 0px 15px !important;
+  }
+  .genrelistcontainer {
+    width: 50% !important;
+    overflow-y: auto;
+  }
+}
+@media (max-width: 375px) {
+  .Logo {
+    display: none;
+  }
+  .TopNav {
+    justify-content: center;
+    align-items: center;
+  }
+  .MovieList {
+    grid-template-columns: repeat(auto-fill, minmax(252px, 2fr)) !important;
+    justify-content: center;
+  }
+  .MovieList_Movie {
+    width: 252px !important;
+    height: fit-content;
+  }
+  .bottomsendert {
+    justify-content: center;
+  }
+  .MovieExtraInfo {
+    display: none;
+  }
+  .playbuttonholder {
+    width: 60%;
+    padding: 0px 5px;
+  }
+  .playbutton {
+    width: 100%;
+    border-radius: 10%;
+  }
+  .PageSwapbt {
+    margin: 0px 15px !important;
+  }
+  .PageSwapbt_PageSwapbtns_back_PageSwapbtn {
+    width: fit-content;
+    padding: 5px;
+  }
+  .genrelistcontainer {
+    width: 50% !important;
+    overflow-y: auto;
+  }
+}
+@media (max-width: 433px) {
+  .MovieList_Movie {
+    width: 122px;
+    height: fit-content;
+  }
+}
+@media (max-width: 320px) {
+  .genrelistcontainer {
+    width: 50% !important;
+    overflow-y: auto;
+  }
+  .Logo {
+    display: none;
+  }
+  .TopNav {
+    justify-content: center;
+    align-items: center;
+  }
+  .MovieList {
+    grid-template-columns: repeat(auto-fill, minmax(252px, 2fr)) !important;
+    justify-content: center;
+  }
+  .MovieList_Movie {
+    width: 252px !important;
+    height: fit-content;
+  }
+  .bottomsendert {
+    justify-content: center;
+  }
+  .MovieExtraInfo {
+    display: none;
+  }
+  .playbuttonholder {
+    width: 60%;
+    padding: 0px 5px;
+  }
+  .playbutton {
+    width: 100%;
+    border-radius: 10%;
+  }
+  .PageSwapbt {
+    margin: 0px 15px !important;
+  }
+  .PageSwapbt_PageSwapbtns_back_PageSwapbtn {
+    width: fit-content;
+    padding: 5px;
+  }
+}
+@media (max-width: 1024px) {
+  .genrelistcontainer {
+    width: 20%;
+    overflow-y: auto;
+  }
+  .TopNav {
+    align-items: center;
+  }
+  .MovieList {
+    grid-template-columns: repeat(auto-fill, minmax(122px, 1fr));
+    justify-content: center;
+  }
+  .MovieList_Movie {
+    width: 122px;
+    height: fit-content;
+  }
+  .bottomsendert {
+    justify-content: center;
+  }
+  .MovieExtraInfo {
+    display: none;
+  }
+  .playbuttonholder {
+    width: 60%;
+    padding: 0px 5px;
+  }
+  .playbutton {
+    width: 100%;
+    border-radius: 10%;
+  }
+  .PageSwapbt {
+    margin: 0px 15px !important;
+  }
+  .PageSwapbt_PageSwapbtns_back_PageSwapbtn {
+    width: fit-content;
+    padding: 5px;
+  }
+}
+@media (max-width: 1440px) {
+  .genrelistcontainer {
+    width: 15%;
+    overflow-y: auto;
+  }
+  .TopNav {
+    align-items: center;
+  }
+  .MovieList {
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    justify-content: center;
+  }
+  .MovieList_Movie {
+    width: 180px;
+    height: fit-content;
+  }
+  .bottomsendert {
+    justify-content: center;
+  }
+  .MovieExtraInfo {
+    display: none;
+  }
+  .playbuttonholder {
+    width: 60%;
+    padding: 0px 5px;
+  }
+  .playbutton {
+    width: 100%;
+    border-radius: 10%;
+  }
+  .PageSwapbt {
+    margin: 0px 15px !important;
+  }
+  .PageSwapbt_PageSwapbtns_back_PageSwapbtn {
+    width: fit-content;
+    padding: 5px;
+  }
+}
+@media (max-width: 768px) {
+  .genrelistcontainer {
+    width: 20% !important;
+    overflow-y: auto;
+  }
+  .TopNav {
+    align-items: center;
+  }
+  .MovieList {
+    grid-template-columns: repeat(auto-fill, minmax(350px, 2fr)) !important;
+    justify-content: center;
+  }
+  .MovieList_Movie {
+    width: 350px !important;
+    height: fit-content;
+  }
+  .bottomsendert {
+    justify-content: center;
+  }
+  .MovieExtraInfo {
+    display: none;
+  }
+  .playbuttonholder {
+    width: 90%;
+    padding: 0px 5px;
+  }
+  .playbutton {
+    width: 100%;
+    border-radius: 10%;
+  }
+  .PageSwapbt {
+    margin: 0px 15px !important;
+  }
+  .PageSwapbt_PageSwapbtns_back_PageSwapbtn {
+    width: fit-content;
+    padding: 5px;
+  }
 }
