@@ -568,7 +568,7 @@ function LoadTvShowEpisodeList(tvshowidD) {
     let episodes = season.episodes;
     console.log("Loading episode list for all seasons AG:", allseasons);
     console.log(seasonNumber, "  PART 2 ", season);
-    if (episodes.length === 0 || episodes === undefined || episodes === null) {
+    if (!episodes || episodes.length === 0) {
       return;
     }
     const seasonContainer = document.createElement("div");
