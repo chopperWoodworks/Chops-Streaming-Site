@@ -58,34 +58,39 @@ function SetTopMenuactivebutton(button) {
   button.classList.toggle("active");
 }
 let FT = true;
-async function NextPage() {
+function NextPage() {
   if (page < MaxPages) {
     page++;
-    await LoadPopularMovies();
+
+    LoadPopularMovies();
+    MovieList.innerHTML = "";
     LoadMoviesToList();
+
     window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
   }
 }
-async function NextGPage(currentgen) {
+function NextGPage(currentgen) {
+  console.log("asdad");
   if (page < MaxPages) {
     page++;
-    await loadGenre(currentgen[0], currentgen[1]);
+    loadGenre(currentgen[0], currentgen[1]);
+    MovieList.innerHTML = "";
     LoadMoviesToList();
     window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
   }
 }
 
-async function BackPage() {
+function BackPage() {
   if (page > 1) {
     page--;
-    await LoadPopularMovies();
+    LoadPopularMovies();
     LoadMoviesToList();
   }
 }
-async function BackGPage() {
+function BackGPage() {
   if (page > 1) {
     page--;
-    await loadGenre(currentgen[0], currentgen[1]);
+    loadGenre(currentgen[0], currentgen[1]);
     LoadMoviesToList();
     window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
   }
@@ -107,18 +112,11 @@ SearchButton.addEventListener("click", () => {
 });
 
 SearchMenuCloseButton.addEventListener("click", () => {
-  if (!Scinput.matches(":focus")) {
-    ShowSearchMenuSection();
-    isSearching = false;
-  }
+  SearchMenuSection.classList.add("Hidden");
+  isSearching = false;
 });
 const searchmenubackground = document.querySelector(".searchmenubackground");
-searchmenubackground.addEventListener("click", () => {
-  if (!Scinput.matches(":focus")) {
-    ShowSearchMenuSection();
-    isSearching = false;
-  }
-});
+
 let MaxPages = 0;
 let MaxCards = 0;
 const MovieList = document.querySelector(".MovieList");
@@ -282,7 +280,11 @@ document.querySelector(".genres").addEventListener("click", () => {
 });
 let currentgen = "";
 let genreenabled = false;
+let current;
 async function loadGenre(genrename, genreid) {
+  if (currentgen[0] !== genreid) {
+    MovieList.innerHTML = "";
+  }
   const res = await fetch(
     `https://api.themoviedb.org/3/discover/tv?api_key=${APIKEY}&with_genres=${genreid}&page=${page}`,
   );
@@ -304,6 +306,7 @@ async function loadGenre(genrename, genreid) {
     AllFullMovieData.push(FullMovieData);
   });
   currentgen = [genreid, genrename];
+
   LoadMoviesToList();
   genreenabled = true;
 }
