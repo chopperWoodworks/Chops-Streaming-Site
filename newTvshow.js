@@ -210,7 +210,6 @@ async function LoadSearchedMovies() {
 
   const SearchValue = document.querySelector(".searchmenu_input input");
   if (SearchValue.value.trim() === "") {
-    page = page + 1;
     await LoadPopularMovies();
     LoadMoviesToList();
   }
@@ -245,10 +244,10 @@ async function LoadSearchedMovies() {
           MovieImage: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
         };
         AllFullMovieData.push(FullMovieData);
-        console.log(AllFullMovieData);
       }
     });
     LoadMoviesToList();
+    console.log(AllFullMovieData);
     isSearching == false;
   }
 }
@@ -623,13 +622,17 @@ async function InitT() {
   await LoadSearchedMovies();
 }
 let timeout;
-SearchMenuInput.addEventListener("input", () => {
-  clearTimeout(timeout);
-  timeout = setTimeout(() => {
-    InitT();
-    AllFullMovieData.splice(0, AllFullMovieData.length);
-  }, 50);
+SearchMenuInput.addEventListener("keypress", (e) => {
+  console.log(e.key.toLowerCase());
+  if (e.key.toLowerCase() == "enter") {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => {
+      InitT();
+      AllFullMovieData.splice(0, AllFullMovieData.length);
+    }, 400);
+  }
 });
+
 let movie = document.querySelectorAll(".MovieList_Movie");
 async function Init() {
   await LoadPopularMovies();
