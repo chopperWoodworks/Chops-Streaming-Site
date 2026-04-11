@@ -37,11 +37,38 @@ Scinput.addEventListener("click", () => {
 });
 SearchButton.addEventListener("mouseenter", () => {
   Scinput.classList.remove("Hidden");
-
   Scinput.classList.remove("Hidden");
+  let searchquery = document.querySelector(".search");
+  searchquery.style.width = "155px";
+
+  let L = document.querySelector(".PageSwapbt_SearchBar button");
+  let F = document.querySelector(".PageSwapbt_PageSwapbtns_back_PageSwapbtnF");
+  searchquery.style.backgroundColor = "#303030";
+  searchquery.classList.add("PageSwapbt_PageSwapbtns_back_PageSwapbtnF");
+  searchquery.classList.add("search");
+
+  searchquery.style.width = "120px";
+  F.style.width = "120px";
+  L.style.width = "155px";
 });
+
 SearchButton.addEventListener("mouseleave", () => {
-  Scinput.classList.add("Hidden");
+  let SearchValue = document.querySelector(".Scinput");
+  let searchquery = document.querySelector(".search");
+  let L = document.querySelector(".PageSwapbt_SearchBar button");
+  let F = document.querySelector(".PageSwapbt_PageSwapbtns_back_PageSwapbtnF");
+  if (SearchValue.value === "") {
+    Scinput.classList.add("Hidden");
+    searchquery.classList.add("PageSwapbt_PageSwapbtns_back_PageSwapbtnF");
+    searchquery.classList.add("search");
+
+    searchquery.style.width = "120px";
+    F.style.width = "120px";
+    L.style.width = "60px";
+  } else {
+    searchquery.style.width = "155px";
+    searchquery.style.backgroundColor = "#303030";
+  }
 });
 const SearchMenuInput = document.querySelector(".searchmenu_input");
 const APIKEY = "d8f1a9c985f12819bb82378a65008c32";
@@ -208,7 +235,58 @@ async function LoadSearchedMovies() {
   }
   MovieList.innerHTML = "";
 
-  const SearchValue = document.querySelector(".searchmenu_input input");
+  let SearchValue = document.querySelector(".searchmenu_input input");
+  if (SearchValue.value.trim() === "") {
+    await LoadPopularMovies();
+    LoadMoviesToList();
+  }
+  if (SearchValue.value.trim() !== "") {
+    const APIFETCH = await fetch(
+      `https://api.themoviedb.org/3/search/tv?api_key=${APIKEY}&query=${encodeURIComponent(SearchValue.value.trim())}`,
+    );
+    const APIDATA = await APIFETCH.json();
+    const Movies = APIDATA.results;
+    MaxPages = APIDATA.total_pages;
+
+    Movies.forEach((movie) => {
+      const movieExists = AllFullMovieData.some(
+        (fullmovie) => fullmovie.MovieId === movie.id,
+      );
+
+      if (
+        !movieExists &&
+        movie.name !== undefined &&
+        movie.poster_path !== null &&
+        movie.poster_path !==
+          `https://image.tmdb.org/t/p/w500/hfniiftuGyPDlZyM2RxjoVGioel.jpg`
+      ) {
+        const FullMovieData = {
+          MovieTitle: movie.name || movie.original_title,
+          MovieId: movie.id,
+          MovieOverview: movie.overview,
+          MovieVoteAverage: movie.vote_average,
+          MoviePopularity: movie.popularity,
+          MoviePosterPath: movie.poster_path,
+          Movierelease_date: movie.first_air_date,
+          MovieImage: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
+        };
+        AllFullMovieData.push(FullMovieData);
+      }
+    });
+    LoadMoviesToList();
+    console.log(AllFullMovieData);
+    isSearching == false;
+  }
+}
+
+async function LoadSearchedMoviesALT() {
+  if (isSearching == false) {
+    AllFullMovieData.splice(0, AllFullMovieData.length);
+    isSearching = true;
+  }
+  MovieList.innerHTML = "";
+
+  let SearchValue = document.querySelector(".Scinput");
   if (SearchValue.value.trim() === "") {
     await LoadPopularMovies();
     LoadMoviesToList();
@@ -621,7 +699,22 @@ async function LoadSeasons(tvshowidD, seasonNumber) {
 async function InitT() {
   await LoadSearchedMovies();
 }
+async function InitTALT() {
+  await LoadSearchedMoviesALT();
+}
 let timeout;
+
+Scinput.addEventListener("keypress", (e) => {
+  console.log(e.key.toLowerCase());
+  if (e.key.toLowerCase() == "enter") {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => {
+      InitTALT();
+      AllFullMovieData.splice(0, AllFullMovieData.length);
+    }, 400);
+  }
+});
+
 SearchMenuInput.addEventListener("keypress", (e) => {
   console.log(e.key.toLowerCase());
   if (e.key.toLowerCase() == "enter") {
