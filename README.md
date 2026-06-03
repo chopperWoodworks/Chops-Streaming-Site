@@ -1,6 +1,8 @@
 # 🎬 Movies / TV Shows Browsing App  
 ✦ A Website application which allows users to view movies and TV shows through the use of “TMDB API” and to find the locations of their availability online.
 
+### Visit: https://chopperwoodworks.github.io/Chops-Streaming-Site/
+
 🚀 Features
 ----
 - 🔎 View trending movies & TV series
