@@ -1,4 +1,4 @@
-# 🎬 Movies / TV Shows Streaming App  
+# 🎬 Movies / TV Shows Browsing App  
 ✦ A Website application which allows users to view movies and TV shows through the use of “TMDB API” and to find the locations of their availability online.
 
 🚀 Features
