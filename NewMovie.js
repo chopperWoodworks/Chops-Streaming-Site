@@ -298,6 +298,7 @@ function convertdate(date) {
 }
 let opened = false;
 let timeouts = [];
+timeouts.map(function () {});
 function Showgenrelist() {
   const viewportWidth = window.innerWidth;
   if (viewportWidth == 768) {

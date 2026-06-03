@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TV Shows</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        background-color: #1c1c1c;
+        color: white;
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+      .Deop {
+        display: flex;
+      }
+      .active {
+        background-color: rgba(255, 255, 255, 0.1);
+        border: 2px dashed #5ecf29;
+      }
+      .deactive {
+        background-color: rgba(255, 255, 255, 0.1);
+        border: 2px dashed #5ecf29;
+      }
+      .Deop {
+        width: 50%;
+        height: 50vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #01133a;
+      }
+      .AllText {
+        width: 50%;
+        height: 80vh;
+        background-color: #000000;
+        color: #ffffff;
+      }
+    </style>
+  </head>
+
+  <body>
+    <section class="Deop"></section>
+    <section class="AllText"></section>
+  </body>
+  <script>
+    const AllText = document.querySelector(".AllText");
+    document.addEventListener("DOMContentLoaded", () => {
+      const dropzone = document.querySelector(".Deop");
+
+      const preventdefaultys = (event) => {
+        event.preventDefault();
+      };
+
+      const active = (event) => {
+        dropzone.classList.add("active");
+      };
+      const deactive = (event) => {
+        dropzone.classList.remove("active");
+      };
+      ["dragover", "dragenter", "dragleave", "drop"].forEach((eventName) => {
+        dropzone.addEventListener(eventName, preventdefaultys);
+      });
+
+      ["dragover", "dragenter"].forEach((eventName) => {
+        dropzone.addEventListener(eventName, active);
+      });
+      ["dragleave", "drop"].forEach((eventName) => {
+        dropzone.addEventListener(eventName, deactive);
+      });
+      const AllTexta = [];
+      dropzone.addEventListener("drop", (e) => {
+        const data = e.dataTransfer;
+        const files = data.files;
+        console.log(files);
+
+        if (files) {
+          [...files].forEach((file) => {
+            const NewFR = new FileReader();
+            NewFR.onload = (vfsd) => {
+              const text = vfsd.target.result;
+              console.log(text);
+              AllTexta.push(text);
+              AllText.innerHTML = `<p>${[...AllTexta].toString()}</p>`;
+            };
+            NewFR.readAsText(file);
+          });
+        }
+      });
+    });
+  </script>
+</html>

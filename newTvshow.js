@@ -113,6 +113,33 @@ function NextGPage(currentgen) {
   }
 }
 
+let MovieUSResults;
+async function DealWithProviders(movieid) {
+  console.log(movieid);
+  MovieUSResults = await (
+    await fetch(
+      `https://api.themoviedb.org/3/movie/${movieid}/watch/providers?api_key=${APIKEY}`, // order of operations with parenthesese
+    )
+  ).json();
+  setTimeout(() => {
+    if (
+      MovieUSResults.results !== undefined ||
+      MovieUSResults.results !== null
+    ) {
+      idweretowatcharray.push({
+        ID: MovieUSResults.id,
+        LINK: MovieUSResults.results.US.link,
+      });
+    }
+  }, 3000);
+}
+
+async function run(Movies) {
+  for (const movie of Movies) {
+    await DealWithProviders(movie.id);
+  }
+}
+
 function BackPage() {
   if (page > 1) {
     page--;
@@ -152,6 +179,7 @@ const searchmenubackground = document.querySelector(".searchmenubackground");
 
 let MaxPages = 0;
 let MaxCards = 0;
+let idweretowatcharray = [];
 const MovieList = document.querySelector(".MovieList");
 let AllFullMovieData = [];
 async function LoadPopularMovies() {
@@ -167,6 +195,7 @@ async function LoadPopularMovies() {
   if (isSearching) return;
   AllFullMovieData = [];
   const Movies = APIDATA.results;
+
   Movies.forEach((movie) => {
     const FullMovieData = {
       MovieTitle: movie.name || movie.original_title,
@@ -180,10 +209,17 @@ async function LoadPopularMovies() {
       MovieCountry: movie.origin_country,
       MovieImage: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
     };
+
     AllFullMovieData.push(FullMovieData);
     MaxPages = APIDATA.total_pages;
-  });
 
+    run(Movies);
+    FullMovieData;
+    console.log();
+  });
+  AllFullMovieData.forEach((moveiobject) => {
+    moveiobject.MovieUSResults = MovieUSResults;
+  });
   const MoviesT = APIDATAT.results;
   const viewportWidth = window.innerWidth;
   MoviesT.forEach((movie) => {
@@ -211,6 +247,7 @@ async function LoadPopularMovies() {
     AllFullMovieData.push(FullMovieData);
     MaxPages += APIDATAT.total_pages;
   });
+  run(MoviesT);
 }
 nextbtn.addEventListener("click", () => {
   if (genreenabled) {
@@ -273,6 +310,7 @@ async function LoadSearchedMovies() {
         AllFullMovieData.push(FullMovieData);
       }
     });
+    run(Movies);
     LoadMoviesToList();
     console.log(AllFullMovieData);
     isSearching == false;
@@ -324,6 +362,7 @@ async function LoadSearchedMoviesALT() {
         AllFullMovieData.push(FullMovieData);
       }
     });
+    run(Movies);
     LoadMoviesToList();
     console.log(AllFullMovieData);
     isSearching == false;
@@ -388,6 +427,7 @@ async function loadGenre(genrename, genreid) {
     };
     AllFullMovieData.push(FullMovieData);
   });
+  run(data);
   currentgen = [genreid, genrename];
 
   LoadMoviesToList();
@@ -468,7 +508,7 @@ function LoadMoviesToList() {
             </div>
                     <div class="playbuttonholder">
           <button class="playbutton">
-            Play
+            Rent
           </button>
         </div>
           </div>  
@@ -481,8 +521,16 @@ function LoadMoviesToList() {
     );
     const playbutton = MovieCard.querySelector(".playbutton");
     playbutton.addEventListener("click", () => {
-      LoadVideoPlayer(movie.MovieId);
+      let lin;
+      idweretowatcharray.forEach((m) => {
+        if (m.ID == movie.MovieId) {
+          lin = m.LINK;
+        }
+      });
       if (opened !== false) Showgenrelist();
+      let interval = setInterval(() => {
+        if (lin !== false) window.location.href = lin;
+      }, 20);
     });
     setTimeout(() => {
       MovieCard.classList.remove("BHidden");
