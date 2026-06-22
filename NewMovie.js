@@ -33,6 +33,7 @@ const nextbtn = document.querySelector(".Next");
 const Backbtn = document.querySelector(".Back");
 
 async function NextPage() {
+  // Go Back a Page
   if (page < MaxPages) {
     page++;
     await LoadPopularMovies();
@@ -42,6 +43,7 @@ async function NextPage() {
 }
 
 async function BackPage() {
+  // Go Back a Page
   if (page > 1) {
     page--;
     await LoadPopularMovies();
@@ -49,15 +51,8 @@ async function BackPage() {
   }
 }
 
-async function NextPage() {
-  if (page < MaxPages) {
-    page++;
-    await LoadPopularMovies();
-    LoadMoviesToList();
-    window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
-  }
-}
 async function NextGPage(currentgen) {
+  // Go Back a Page (With Currently Selected Genre)
   if (page < MaxPages) {
     page++;
     await loadGenre(currentgen[0], currentgen[1]);
@@ -66,14 +61,8 @@ async function NextGPage(currentgen) {
   }
 }
 
-async function BackPage() {
-  if (page > 1) {
-    page--;
-    await LoadPopularMovies();
-    LoadMoviesToList();
-  }
-}
 async function BackGPage() {
+  // Go Back a Page (With Currently Selected Genre)
   if (page > 1) {
     page--;
     await loadGenre(currentgen[0], currentgen[1]);
@@ -81,6 +70,28 @@ async function BackGPage() {
     window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
   }
 }
+
+async function DealWithProviders(movieid) {
+  const res = await fetch(
+    `https://api.themoviedb.org/3/movie/${movieid}/watch/providers?api_key=${APIKEY}`,
+  );
+
+  const data = await res.json();
+
+  if (data?.results?.US?.link) {
+    idweretowatcharray.push({
+      ID: movieid,
+      LINK: data.results.US.link,
+    });
+  }
+}
+
+async function run(Movies) {
+  for (const movie of Movies) {
+    await DealWithProviders(movie.id);
+  }
+}
+
 nextbtn.addEventListener("click", () => {
   if (genreenabled) {
     console.log(currentgen);
@@ -129,6 +140,7 @@ SearchMenuCloseButton.addEventListener("click", () => {
 });
 let MaxPages = 0;
 const MovieList = document.querySelector(".MovieList");
+let idweretowatcharray = [];
 let AllFullMovieData = [];
 async function LoadPopularMovies() {
   const APIFETCH = await fetch(
@@ -158,6 +170,7 @@ async function LoadPopularMovies() {
     };
     AllFullMovieData.push(FullMovieData);
     MaxPages = APIDATA.total_pages;
+    run(Movies);
   });
 
   const MoviesT = APIDATAT.results;
@@ -186,6 +199,7 @@ async function LoadPopularMovies() {
     };
     AllFullMovieData.push(FullMovieData);
     MaxPages += APIDATAT.total_pages;
+    run(Movies);
   });
 }
 
@@ -227,6 +241,7 @@ async function LoadSearchedMovies() {
           MovieImage: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
         };
         AllFullMovieData.push(FullMovieData);
+        run(Movies);
       }
     });
   }
@@ -285,6 +300,7 @@ async function loadGenre(genrename, genreid) {
       MovieImage: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
     };
     AllFullMovieData.push(FullMovieData);
+    run(data);
   });
 
   currentgen = [genreid, genrename];
@@ -358,7 +374,7 @@ function LoadMoviesToList() {
             </div>
                     <div class="playbuttonholder">
           <button class="playbutton">
-            Play
+            Rent
           </button>
         </div>
           </div>  
@@ -371,8 +387,13 @@ function LoadMoviesToList() {
     );
     const playbutton = MovieCard.querySelector(".playbutton");
     playbutton.addEventListener("click", () => {
-      LoadVideoPlayer(movie.MovieId);
-      if (opened !== false) Showgenrelist();
+      const provider = idweretowatcharray.find((m) => m.ID === movie.MovieId);
+
+      if (provider?.LINK) {
+        window.location.href = provider.LINK;
+      } else {
+        console.log("No link found for this show");
+      }
     });
     setTimeout(() => {
       MovieCard.classList.remove("BHidden");
